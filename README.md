@@ -32,15 +32,15 @@ usage: phen2gene.py [-h] [-f [FILE.NAME [FILE.NAME ...]]]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -f , --file [FILE.NAME [FILE.NAME ...]]
+  -f, --file [FILE.NAME [FILE.NAME ...]]
                         Input HPO as file.
-  -m , --manual [HPID [HPID ...]]
+  -m, --manual [HPID [HPID ...]]
                         Input HPO ID(s) one by one, with an empty space as seperation.
-  -w , --method w|s  Methods to merge gene scores. 
+  -w, --method w|s  Methods to merge gene scores. 
                         'w' ( Default ) Weighted Score Merge 
                         's' Simple Score Merge
   -v, --verbosity       Display Phen2Gene workflow verbosely.
-  -out , --output OUTPUT/PATH
+  -out, --output OUTPUT/PATH
                         Specify the path to store output files. 
                         Default directory path: ./out/
 
@@ -49,13 +49,22 @@ optional arguments:
 ## Example
 1. Input HPO ID(s) manually
 ```
-python3 phen2gene.py -m HP:0000001 HP:0000021 HP:0000027 HP:0030905 HP:0030910 HP:0010628 -out out/out
+python phen2gene.py -m HP:0000001 HP:0000021 HP:0000027 HP:0030905 HP:0030910 HP:0010628 -out out/out
 ```
 2. Input HPO ID(s) by files
 ```
-python3 phen2gene.py -f sample.txt -out out/out
+python phen2gene.py -f sample.txt -out out/out
 ```
 3. Use Weighted Score Merge
 ```
-python3 phen2gene.py -f sample.txt -w w -out out/out
+python phen2gene.py -f sample.txt -w w -out out/out
 ```
+4. Run Phen2gene verbosely
+```
+python phen2gene.py -f sample.txt -v -out out/out
+```
+
+
+## Getting Help
+
+Please use the [GitHub's Issues page](https://github.com/WGLab/LinkedSV/issues) if you have questions.
