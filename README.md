@@ -9,13 +9,21 @@ Numpy
 ### Python 3.7
 Python 3 can be installed by multiple ways. Here shows installing Python 3.7 by `Anaconda` (Anaconda installation instruction: https://docs.anaconda.com/anaconda/install/). Usually Python 3.7 is installed at the same time Anaconda is installed.
 If you want to run Python 3 under different environment, you may create a new environment for Python 3 by `conda create -n <environment name> python=3.7`, then `source activate <environment name>` (on Linux/Mac).
+
 To exit the environment, `source deactivate`.
 
 ### Numpy
 Numpy can be installed by multiple ways after Python is installed. Here shows installing by `Anaconda`: `conda install numpy`.
 
+### Phen2Gene
+`git clone https://github.com/WGLab/Phen2Gene.git`
+
 ### Install Time
 It may take a few minute to install Phen2Gene.
+
+### After Installation
+`cd YOUR/PATH/TO/PHEN2GENE`
+
 
 ## Usage
 ```
@@ -38,3 +46,16 @@ optional arguments:
 
 ```
 
+## Example
+1. Input HPO ID(s) manually
+```
+python3 phen2gene.py -m HP:0000001 HP:0000021 HP:0000027 HP:0030905 HP:0030910 HP:0010628 -out out/out
+```
+2. Input HPO ID(s) by files
+```
+python3 phen2gene.py -f sample.txt -out out/out
+```
+3. Use Weighted Score Merge
+```
+python3 phen2gene.py -f sample.txt -w w -out out/out
+```
