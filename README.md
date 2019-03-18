@@ -47,6 +47,9 @@ optional arguments:
 
 ```
 
+## Input files
+Input files to Phen2Gene should contains only HPO ID(s), seperated by new line character(`\n`).
+
 ## Example
 1. Input HPO ID(s) manually
 ```
