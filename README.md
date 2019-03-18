@@ -2,8 +2,10 @@
 Phen2Gene is a phenotype driven gene prioritization tool, that takes HPO(Human Phenotype Ontology) ID(s) as inputs, searches and prioritize suspected genes.
 
 ## Prerequisite
+```
 Python 3.7
 Numpy
+```
 
 ## Installation
 ### Python 3.7
@@ -19,7 +21,7 @@ Numpy can be installed by multiple ways after Python is installed. Here shows in
 `git clone https://github.com/WGLab/Phen2Gene.git`
 
 ### Install Time
-It may take a few minute to install Phen2Gene.
+It may take a few minutes to install Phen2Gene.
 
 ### After Installation
 `cd YOUR/PATH/TO/PHEN2GENE`
