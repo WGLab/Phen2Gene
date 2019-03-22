@@ -9,13 +9,13 @@ Numpy
 
 ## Installation
 ### Python 3.7
-Python 3 can be installed by multiple ways. Here shows installing Python 3.7 by `Anaconda` (Anaconda installation instruction: https://docs.anaconda.com/anaconda/install/). Usually Python 3.7 is installed at the same time Anaconda is installed.
-If you want to run Python 3 under different environment, you may create a new environment for Python 3 in commandline by `conda create -n <environment name> python=3.7`, then `source activate <environment name>` (on Linux/Mac).
+Here shows installing Python 3.7 by `Anaconda` (Anaconda installation instruction: https://docs.anaconda.com/anaconda/install/). Usually Python 3.7 is installed at the same time Anaconda is installed.
+If you want to run Python 3 under different environment, you may create a new environment for Python 3 in commandline by `conda create -n <environment name> python=3.7`, then `conda activate <environment name>` (on Linux/Mac).
 
 To exit the environment, `source deactivate`.
 
 ### Numpy
-Numpy can be installed by multiple ways after Python is installed. Here shows installing in commandline by `Anaconda`: `conda install numpy`.
+Here shows installing in commandline by `Anaconda`: `conda install numpy`.
 
 ### Phen2Gene
 `git clone https://github.com/WGLab/Phen2Gene.git`
