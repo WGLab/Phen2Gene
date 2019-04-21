@@ -1,0 +1,5 @@
+##Weight	0.3333333333333333
+Rank	Gene	ID	Score	Status
+1	RECQL4	9401	1	SeedGene
+2	ESR1	2099	0.01536	Predicted
+3	PRSS23	11098	0.01249	Predicted

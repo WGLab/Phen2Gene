@@ -1,0 +1,12 @@
+##Weight	1.0
+Rank	Gene	ID	Score	Status
+1	KANK1	23189	1	SeedGene
+2	BAIAP2	10458	0.04997	Predicted
+3	KANK2	25959	0.03736	Predicted
+4	KANK3	256949	0.03736	Predicted
+5	KANK4	163782	0.03736	Predicted
+6	HIF1A	3091	0.01536	Predicted
+7	E2F4	1874	0.01536	Predicted
+8	ETS1	2113	0.01536	Predicted
+9	AR	367	0.01536	Predicted
+10	PPP1CA	5499	0.01249	Predicted

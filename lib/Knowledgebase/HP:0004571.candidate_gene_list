@@ -1,0 +1,6 @@
+##Weight	1.0
+Rank	Gene	ID	Score	Status
+1	GLE1	2733	1	SeedGene
+2	NUP155	9631	0.03747	Predicted
+3	NUPL2	11097	0.03747	Predicted
+4	ETS1	2113	0.01536	Predicted

@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description='Phen2Gene: Phenotype driven gene p
 
 parser.add_argument('-f', '--file', metavar='FILE.NAME',  help='Input HPO as file.', nargs='*')
 
-parser.add_argument('-m', '--manual', metavar='HPID',  help='Input HPO ID(s) one by one, with an empty space as seperation.', nargs='*')
+parser.add_argument('-m', '--manual', metavar='HPID',  help='Input HPO ID(s) one by one, seperated by an empty space.', nargs='*')
 
 parser.add_argument('-w', '--method', metavar='w|s', help='Methods to merge gene scores.\n \'w\' ( Default ) Weighted Score Merge \n \'s\' Simple Score Merge')
 
