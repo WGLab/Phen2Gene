@@ -15,7 +15,7 @@ parser.add_argument('-f', '--file', metavar='FILE.NAME',  help='Input HPO as fil
 
 parser.add_argument('-m', '--manual', metavar='HPID',  help='Input HPO ID(s) one by one, seperated by an empty space.', nargs='*')
 
-parser.add_argument('-w', '--method', metavar='w|s', help='Methods to merge gene scores.\n \'w\' ( Default ) Weighted Score Merge \n \'s\' Simple Score Merge')
+parser.add_argument('-w', '--method', metavar='w|u', help='Methods to merge gene scores.\n \'w\' ( Default ) Scoring by weighted Human-Phenotype terms\n \'u\'  Scoring by Unweighted Human-Phenotype terms')
 
 parser.add_argument('-v', '--verbosity', action='store_true', help='Display Phen2Gene workflow verbosely.')
 
@@ -39,22 +39,24 @@ if(not output_input.endswith("/")):
     output_input += "/"
 
 # Set Weighted Score Merge as the Default method
-if( method_input != 's'):
+if( method_input != 's' or method_input != 'e'):
     method_input = 'w'
 
 
 if(args.verbosity):
     if(method_input == 'w'):
-        print("\nGene score merging method: Weighted Score Merge \n")
+        print("\nGene scoring method: Scoring by Weighted Human-Phenotype terms \n")
+    elif(method_input == 'u'):
+        print("\nGene scoring method: Scoring by Unweighted Human-Phenotype terms \n")
     else:
-        print("\nGene score merging method: Simple Score Merge \n")
+        print("\nGene scoring method: Scoring by Simple Merge \n")
 
 
 HPO_id = []
 
-knowledgebase = "lib/Knowledgebase/"
+knowledgebase = "./lib/Knowledgebase/"
 
-HP_file_suffix=".final_gene_list"
+HP_file_suffix=".candidate_gene_list"
 
 gene_dict = {}
 
@@ -90,13 +92,18 @@ if(file_input != None):
 if(method_input == 'w'):
     for HP_term in HPO_id:
         if(args.verbosity == True):
-            print("\nReading " + HP_term + " data from Knowledgebase...")
+            print("\nReading " + HP_term + HP_file_suffix + " from Knowledgebase...")
+        score_merge.weighted_HPO_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
+elif(method_input == 'u'):
+    for HP_term in HPO_id:
+        if(args.verbosity == True):
+            print("\nReading " + HP_term + HP_file_suffix + " from Knowledgebase...")
         score_merge.weighted_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
 else:
     for HP_term in HPO_id:
         if(args.verbosity == True):
-            print("\nReading " + HP_term + " data from Knowledgebase...")
+            print("\nReading " + HP_term + HP_file_suffix + " from Knowledgebase...")
         score_merge.simple_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
 
