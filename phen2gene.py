@@ -41,7 +41,11 @@ if(not output_input.endswith("/")):
     output_input += "/"
 
 # Set Weighted Score Merge as the Default method
-if( method_input != 's' or method_input != 'e'):
+if( method_input == "U"):
+    method_input = 'u'
+elif(method_input == "S"):
+    method_input = 's'
+if( method_input != 'u' and method_input != 's'):
     method_input = 'w'
 
 
@@ -60,7 +64,7 @@ knowledgebase = "./lib/Knowledgebase/"
 
 HP_file_suffix=".candidate_gene_list"
 
-gene_dict = {}
+
 
 case_name = ""
 
@@ -77,7 +81,7 @@ if(path_list[0] == "."):
         for j in range(1,i):
             path_name += path_list[j] + "/"
         path_name += path_list[i]
-        print("path_name" + path_name)
+        #print("path_name" + path_name)
         if(not os.path.isdir(path_name) ):
             os.mkdir(path_name)
 else:
@@ -87,7 +91,7 @@ else:
         for j in range(0,i):
             path_name += path_list[j] + "/"
         path_name += path_list[i]
-        print("path_name" + path_name)
+        #print("path_name" + path_name)
         if(not os.path.isdir(path_name) ):
             os.mkdir(path_name)
 
@@ -105,6 +109,10 @@ if(manual_input != None):
         else:
             if(args.verbosity):
              print(HP_item, "is not a valid HPO ID,", sep = " ")
+
+
+gene_dict = dict({})
+
 
 # Extract HPO ID from input files
 if(file_input != None):
@@ -124,18 +132,18 @@ if(file_input != None):
 if(method_input == 'w'):
     for HP_term in HPO_id:
         if(args.verbosity == True):
-            print("\nReading " + HP_term + HP_file_suffix + " from Knowledgebase...")
-        score_merge.weighted_HPO_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
+            print("\nReading " + HP_term + HP_file_suffix + " from HPO2Gene Knowledgebase...")
+        score_merge.extract_HP_data_weighted_HPO(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 elif(method_input == 'u'):
     for HP_term in HPO_id:
         if(args.verbosity == True):
-            print("\nReading " + HP_term + HP_file_suffix + " from Knowledgebase...")
-        score_merge.weighted_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
+            print("\nReading " + HP_term + HP_file_suffix + " from HPO2Gene Knowledgebase...")
+        score_merge.extract_HP_data_unweighted_HPO(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
 else:
     for HP_term in HPO_id:
         if(args.verbosity == True):
-            print("\nReading " + HP_term + HP_file_suffix + " from Knowledgebase...")
+            print("\nReading " + HP_term + HP_file_suffix + " HPO2Gene from Knowledgebase...")
         score_merge.simple_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
 
