@@ -1,8 +1,8 @@
 import numpy as np 
 
-def build_output_file(output_input,method_input,gene_dict):
+def build_output_file(output_input,case_name,method_input,gene_dict):
 
-    with open(output_input + "final_gene_list", "w+") as output_file:
+    with open(output_input + case_name+ ".final_candidate_gene_list", "w+") as output_file:
         output_file.write("Rank\tGene\tID\tScore\tStatus\n")
         if(len(gene_dict) > 0):
 
