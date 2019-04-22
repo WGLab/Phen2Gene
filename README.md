@@ -17,7 +17,7 @@ python phen2gene.py -f sample.txt -v
 
 Input by HPO terms
 ```
-python phen2gene.py -m "HP:0002779 HP:0001631 HP:0030718 HP:0005117 HP:0001156 HP:0000426 HP:0000316" -v
+python phen2gene.py -m HP:0002779 HP:0001631 HP:0030718 HP:0005117 HP:0001156 HP:0000426 HP:0000316 -v
 ```
 
 Use weighted human phenotype terms for scoring
