@@ -1,6 +1,6 @@
 import sys
 
-def weighted_extract_HP_data(HP_gene_list,gene_dict, verbosity):
+def extract_HP_data_unweighted_HPO(HP_gene_list,gene_dict, verbosity):
     try:
         with open(HP_gene_list, "r") as HP_file:
             line = HP_file.readline()
@@ -16,6 +16,8 @@ def weighted_extract_HP_data(HP_gene_list,gene_dict, verbosity):
                     if(data[4] == "SeedGene" and gene_dict[gene_id][2] == "Predicted"):
                         gene_dict[gene_id][2] = "SeedGene"
                 line = HP_file.readline()
+
+        #return gene_dict
     except FileNotFoundError:
         if(verbosity):
             pos = HP_gene_list.find("HP:")
@@ -23,12 +25,13 @@ def weighted_extract_HP_data(HP_gene_list,gene_dict, verbosity):
         else:
             pass
 
-def weighted_HPO_extract_HP_data(HP_gene_list,gene_dict, verbosity):
+def extract_HP_data_weighted_HPO(HP_gene_list,gene_dict, verbosity):
     try:
         with open(HP_gene_list, "r") as HP_file:
             line = HP_file.readline()
             weight_data = line.strip("\n").split("\t")
             weight = float(weight_data[1])
+            #print(weight)
             line = HP_file.readline()
             line = HP_file.readline()
             while(line ):
@@ -41,6 +44,8 @@ def weighted_HPO_extract_HP_data(HP_gene_list,gene_dict, verbosity):
                     if(data[4] == "SeedGene" and gene_dict[gene_id][2] == "Predicted"):
                         gene_dict[gene_id][2] = "SeedGene"
                 line = HP_file.readline()
+
+        #return gene_dict
     except FileNotFoundError:
         if(verbosity):
             pos = HP_gene_list.find("HP:")
@@ -64,6 +69,8 @@ def simple_extract_HP_data(HP_gene_list,gene_dict, verbosity):
                     if(data[4] == "SeedGene" and gene_dict[gene_id][2] == "Predicted"):
                         gene_dict[gene_id][2] = "SeedGene"
                 line = HP_file.readline()
+
+        #return gene_dict
     except FileNotFoundError:
         if(verbosity):
             print(HP_gene_list[0:10] + " is not a valid HPO ID.", file=sys.stderr)

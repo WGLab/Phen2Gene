@@ -6,7 +6,7 @@ def build_output_file(output_input,case_name,method_input,gene_dict):
         output_file.write("Rank\tGene\tID\tScore\tStatus\n")
         if(len(gene_dict) > 0):
 
-            if(method_input == 'w' or method_input == 'e'):
+            if(method_input == 'w' or method_input == 'u'):
                 rank = 1
                 highest_score = 1
                 for gene_item in gene_dict.keys():
