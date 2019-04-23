@@ -3,7 +3,7 @@ Phenotype driven gene prioritization tool.
 
 Phen2Gene reads HPO terms, and output a prioritized candidate gene list.
 
-# Requirments
+# Env Requirments
 1. Python3 and numpy
 
 2. Linux environments recommended
