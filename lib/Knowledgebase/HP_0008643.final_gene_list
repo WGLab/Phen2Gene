@@ -1,0 +1,13 @@
+Rank	Gene	ID	Score	Status
+1	DIS3L2	129563	1	SeedGene
+2	BMPER	168667	0.981	SeedGene
+3	BMP6	654	0.04902	Predicted
+4	BMP2	650	0.04902	Predicted
+5	BMP4	652	0.04902	Predicted
+6	YBX1	4904	0.03043	Predicted
+7	PRDM14	63978	0.03043	Predicted
+8	AR	367	0.03043	Predicted
+9	ETS1	2113	0.01536	Predicted
+10	COPS6	10980	0.01249	Predicted
+11	FEZ1	9638	0.01249	Predicted
+12	VIM	7431	0.01249	Predicted
