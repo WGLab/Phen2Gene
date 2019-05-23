@@ -1,6 +1,9 @@
 import sys
 
-def extract_HP_data_unweighted_HPO(HP_gene_list,gene_dict, verbosity):
+
+def weighted_extract_HP_data(HP_gene_list, gene_dict, verbosity):
+    HP_gene_list = HP_gene_list.replace('HP:', 'HP_')
+
     try:
         with open(HP_gene_list, "r") as HP_file:
             line = HP_file.readline()
@@ -48,12 +51,13 @@ def extract_HP_data_weighted_HPO(HP_gene_list,gene_dict, verbosity):
         #return gene_dict
     except FileNotFoundError:
         if(verbosity):
-            pos = HP_gene_list.find("HP:")
+            pos = HP_gene_list.find("HP_")
             print("\n" + HP_gene_list[pos:pos+10] + " is not a valid HPO ID.", file=sys.stderr)
         else:
             pass
 
-def simple_extract_HP_data(HP_gene_list,gene_dict, verbosity):
+def simple_extract_HP_data(HP_gene_list, gene_dict, verbosity):
+    HP_gene_list = HP_gene_list.replace('HP:', 'HP_')
     try:
         with open(HP_gene_list, "r") as HP_file:
             line = HP_file.readline()
@@ -73,7 +77,8 @@ def simple_extract_HP_data(HP_gene_list,gene_dict, verbosity):
         #return gene_dict
     except FileNotFoundError:
         if(verbosity):
-            print(HP_gene_list[0:10] + " is not a valid HPO ID.", file=sys.stderr)
+            pos = HP_gene_list.find("HP_")
+            print("\n" + HP_gene_list[pos:pos+10] + " is not a valid HPO ID.", file=sys.stderr)
         else:
             pass
                     
