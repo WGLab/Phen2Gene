@@ -13,9 +13,9 @@ parser = argparse.ArgumentParser(description='Phen2Gene: Phenotype driven gene p
 
 parser.add_argument('-f', '--file', metavar='FILE.NAME',  help='Input HPO as file.', nargs='*')
 
-parser.add_argument('-m', '--manual', metavar='HPID',  help='Input HPO ID(s) one by one, with an empty space as seperation.', nargs='*')
+parser.add_argument('-m', '--manual', metavar='HPID',  help='Input HPO ID(s) one by one, seperated by an empty space.', nargs='*')
 
-parser.add_argument('-w', '--method', metavar='w|s', help='Methods to merge gene scores.\n \'w\' ( Default ) Weighted Score Merge \n \'s\' Simple Score Merge')
+parser.add_argument('-w', '--method', metavar='w|u', help='Methods to merge gene scores.\n \'w\' ( Default ) Scoring by weighted Human-Phenotype terms\n \'u\'  Scoring by Unweighted Human-Phenotype terms')
 
 parser.add_argument('-v', '--verbosity', action='store_true', help='Display Phen2Gene workflow verbosely.')
 
@@ -35,32 +35,70 @@ if(file_input == None and manual_input == None):
     parser.print_help()
     sys.exit("")
 
+if(output_input == None):
+    output_input = "./outout/"
 if(not output_input.endswith("/")):
     output_input += "/"
 
 # Set Weighted Score Merge as the Default method
-if( method_input != 's'):
+if( method_input == "U"):
+    method_input = 'u'
+elif(method_input == "S"):
+    method_input = 's'
+if( method_input != 'u' and method_input != 's'):
     method_input = 'w'
 
 
 if(args.verbosity):
     if(method_input == 'w'):
-        print("\nGene score merging method: Weighted Score Merge \n")
+        print("\nGene scoring method: Scoring by Weighted Human-Phenotype terms \n")
+    elif(method_input == 'u'):
+        print("\nGene scoring method: Scoring by Unweighted Human-Phenotype terms \n")
     else:
-        print("\nGene score merging method: Simple Score Merge \n")
+        print("\nGene scoring method: Scoring by Simple Merge \n")
 
 
 HPO_id = []
 
-knowledgebase = "lib/Knowledgebase/"
+knowledgebase = "./lib/Knowledgebase/"
 
-HP_file_suffix=".final_gene_list"
-
-gene_dict = {}
+HP_file_suffix=".candidate_gene_list"
 
 
-if(not os.path.isdir(output_input) ):
-    os.mkdir(output_input)
+
+case_name = ""
+
+
+
+
+path_list = output_input.split("/")
+if(path_list[0] == ""):
+    path_list[0] = "."
+    output_input = "." + output_input
+if(path_list[0] == "."):
+    for i in range(1,len(path_list)):
+        path_name = "./"
+        for j in range(1,i):
+            path_name += path_list[j] + "/"
+        path_name += path_list[i]
+        #print("path_name" + path_name)
+        if(not os.path.isdir(path_name) ):
+            os.mkdir(path_name)
+else:
+    
+    for i in range(0,len(path_list)):
+        path_name = "./"
+        for j in range(0,i):
+            path_name += path_list[j] + "/"
+        path_name += path_list[i]
+        #print("path_name" + path_name)
+        if(not os.path.isdir(path_name) ):
+            os.mkdir(path_name)
+
+    
+
+if(case_name == ""):
+    case_name = "input_case" 
 
 # Collect manually input HPO ID
 if(manual_input != None):
@@ -71,6 +109,10 @@ if(manual_input != None):
         else:
             if(args.verbosity):
              print(HP_item, "is not a valid HPO ID,", sep = " ")
+
+
+gene_dict = dict({})
+
 
 # Extract HPO ID from input files
 if(file_input != None):
@@ -90,13 +132,18 @@ if(file_input != None):
 if(method_input == 'w'):
     for HP_term in HPO_id:
         if(args.verbosity == True):
-            print("\nReading " + HP_term + " data from Knowledgebase...")
-        score_merge.weighted_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
+            print("\nReading " + HP_term + HP_file_suffix + " from HPO2Gene Knowledgebase...")
+        score_merge.extract_HP_data_weighted_HPO(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
+elif(method_input == 'u'):
+    for HP_term in HPO_id:
+        if(args.verbosity == True):
+            print("\nReading " + HP_term + HP_file_suffix + " from HPO2Gene Knowledgebase...")
+        score_merge.extract_HP_data_unweighted_HPO(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
 else:
     for HP_term in HPO_id:
         if(args.verbosity == True):
-            print("\nReading " + HP_term + " data from Knowledgebase...")
+            print("\nReading " + HP_term + HP_file_suffix + " HPO2Gene from Knowledgebase...")
         score_merge.simple_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
 
@@ -104,9 +151,9 @@ else:
 gene_dict = prioritize.sort_dict(gene_dict)
 
 # Output the final genelist
-output.build_output_file(output_input,method_input,gene_dict)
+output.build_output_file(output_input, case_name, method_input,gene_dict)
                     
 
-print("\nFinal result path: ./" + output_input  + "\n")     
+print("\nPath to final candidate gene list: " + output_input  + "\n")     
 
 
