@@ -30,21 +30,35 @@ It may take a few minutes to install Phen2Gene.
 ## Usage
 ```
 usage: phen2gene.py [-h] [-f [FILE.NAME [FILE.NAME ...]]]
-                    [-m [HPID [HPID ...]]] [-w w|s] [-v] [-out OUTPUT]
+                    [-ud [TERM&WEIGHT [TERM&WEIGHT ...]]]
+                    [-m [HPID [HPID ...]]] [-w w|u|s|ic|d] [-v] [-wo]
+                    [-out OUTPUT] [-n output.file.name]
+
+Phen2Gene: Phenotype driven gene prioritization tool. Phen2Gene take input
+data (HPO, Human Phenotype Ontology), and output a prioritized suspected gene
+list.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -f, --file [FILE.NAME [FILE.NAME ...]]
-                        Input HPO as file.
-  -m, --manual [HPID [HPID ...]]
-                        Input HPO ID(s) one by one, with an empty space as seperation.
-  -w, --method w|s  Methods to merge gene scores. 
-                        'w' ( Default ) Weighted Score Merge 
-                        's' Simple Score Merge
+  -f [FILE.NAME [FILE.NAME ...]], --file [FILE.NAME [FILE.NAME ...]]
+                        Input file(s) of HP IDs.
+  -ud [TERM&WEIGHT [TERM&WEIGHT ...]], --user_defined [TERM&WEIGHT [TERM&WEIGHT ...]]
+                        Input file(s) of HP IDs and user-defined weights.
+  -m [HPID [HPID ...]], --manual [HPID [HPID ...]]
+                        Input HPO ID(s) one by one, seperated by an empty
+                        space.
+  -w w|u|s|ic|d, --weight_model w|u|s|ic|d
+                        Methods to merge gene scores. 'w' ( Default ) Scoring
+                        by weighted Human-Phenotype terms 'u' Scoring by
+                        Unweighted Human-Phenotype terms
   -v, --verbosity       Display Phen2Gene workflow verbosely.
-  -out, --output OUTPUT/PATH
-                        Specify the path to store output files. 
-                        Default directory path: ./out/
+  -wo, --weight_only    Output weights of HPO terms only.
+  -out OUTPUT, --output OUTPUT
+                        Specify the path to store output files. Default
+                        directory path: ./out/
+  -n output.file.name, --name output.file.name
+                        Name the output file.
+
 
 ```
 
@@ -73,34 +87,5 @@ python phen2gene.py -f sample.txt -v -out out/out
 ## Getting Help
 
 Please use the [GitHub's Issues page](https://github.com/WGLab/LinkedSV/issues) if you have questions.
-=======
-Phenotype driven gene prioritization tool. 
 
-Phen2Gene reads HPO terms, and output a prioritized candidate gene list.
 
-# Env Requirments
-1. Python3 and numpy
-
-2. Linux environments recommended
-
-# Test
-
-Input by file
-```
-python phen2gene.py -f sample.txt -v
-```
-
-Input by HPO terms
-```
-python phen2gene.py -m HP:0002779 HP:0001631 HP:0030718 HP:0005117 HP:0001156 HP:0000426 HP:0000316 -v
-```
-
-Use weighted human phenotype terms for scoring
-```
-python phen2gene.py -f sample.txt -w w -v
-```
-
-Use unweighted human phenotype terms for scoring
-```
-python phen2gene.py -f sample.txt -w u -v
-```
