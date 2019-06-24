@@ -1,9 +1,0 @@
-##Weight	1.0
-Rank	Gene	ID	Score	Status
-1	BMPER	168667	1	SeedGene
-2	BMP6	654	0.04997	Predicted
-3	BMP4	652	0.04997	Predicted
-4	BMP2	650	0.04997	Predicted
-5	AR	367	0.01536	Predicted
-6	PRDM14	63978	0.01536	Predicted
-7	YBX1	4904	0.01536	Predicted
