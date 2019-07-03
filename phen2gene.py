@@ -7,7 +7,7 @@ import argparse
 from lib.prioritize import gene_prioritization
 from lib.output import write_list
 from lib.weight_assignment import assign
-from lib.calculation import calc
+from lib.calculation import calc, calc_simple
 
 knowledgebase = "./lib/Knowledgebase/"
 
@@ -42,6 +42,7 @@ files = args.file
 manuals = args.manual
 output_path= args.output
 weight_model = args.weight_model
+
 user_defineds = args.user_defined
 output_file_name = args.name
 
@@ -67,13 +68,13 @@ else:
 if(args.verbosity):
     if(weight_model.lower() == 'w'):
         print("\nHPO weighting model: Intuitive\n")
-        weight_model = 'intuitive'
+        #weight_model = 'intuitive'
     elif(weight_model.lower() == 'u' or weight_model.lower() == 's'):
         print("\nHPO weighting model: None\n")
-        weight_model = 'none'
+        #weight_model = 'none'
     elif(weight_model.lower() == 'ic'):
         print("\nHPO weighting model: Ontology-based Informatin Content\n")
-        weight_model = 'ic_sanchez'
+        #weight_model = 'ic_sanchez'
     else:
         print("\nHPO weighting model: User-defined\n")
 
@@ -142,7 +143,6 @@ if(files != None and weight_model != 'd'):
 
 ## Create a dict to store weights of HPO terms
 hp_weight_dict = {}
-
 # If HPO weights are pre-defined by users
 if(weight_model == 'd'):
     if(user_defineds != None):
@@ -183,14 +183,16 @@ if(args.weight_only):
     exit()
             
 # Create a dict to store associated gene data
-gene_dict = calc(hp_weight_dict, args.verbosity)
-
+if(weight_model.lower() == 's'):
+    gene_dict = calc_simple(hp_weight_dict, args.verbosity)
+else:
+    gene_dict = calc(hp_weight_dict, args.verbosity)
 ### output the final prioritized associated gene list
 # Prioritize all found genes
 gene_dict = gene_prioritization(gene_dict)
 
 # output the sorted gene list
-write_list(output_path, output_file_name, weight_model ,gene_dict)
+write_list(output_path, output_file_name, weight_model.lower() ,gene_dict)
                     
 print("Finished.")
 print("Output path: " + output_path  + "\n")  
