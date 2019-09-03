@@ -5,7 +5,8 @@ import os
 import argparse
 
 from lib.prioritize import gene_prioritization
-from lib.output import write_list
+from lib.output import write_list as write_list_tsv
+from lib.json_format import write_list as write_list_json
 from lib.weight_assignment import assign
 from lib.calculation import calc, calc_simple
 
@@ -36,6 +37,8 @@ parser.add_argument('-out', '--output',  help='Specify the path to store output 
 
 parser.add_argument('-n', '--name', metavar='output.file.name', help='Name the output file.')
 
+parser.add_argument('-json', '--json', action='store_true', help='Output the file in json format.')
+
 args = parser.parse_args()
 
 files = args.file
@@ -45,6 +48,8 @@ weight_model = args.weight_model
 
 user_defineds = args.user_defined
 output_file_name = args.name
+
+json_formatting = args.json
 
 # If no HPO ID(s) available, exit the scripts.
 if(files == None and manuals == None and user_defineds == None):
@@ -192,7 +197,11 @@ else:
 gene_dict = gene_prioritization(gene_dict)
 
 # output the sorted gene list
-write_list(output_path, output_file_name, weight_model.lower() ,gene_dict)
+if(json_formatting):
+    write_list_json(output_path, output_file_name, weight_model.lower() ,gene_dict)
+else:
+    
+    write_list_tsv(output_path, output_file_name, weight_model.lower() ,gene_dict)
                     
 print("Finished.")
 print("Output path: " + output_path  + "\n")  
