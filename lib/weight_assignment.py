@@ -1,7 +1,7 @@
 db_weight = "./lib/weights/"
 outdated_HP = "./lib/outdated_HP/"
 
-def assign(hp, model='ic_sanchez', replaced_by = None):
+def assign(hp, model='ic', replaced_by = None):
     
     # Check HP id format should be 'HP_nnnnnnn'
     if(hp[2] == ":"):
@@ -10,9 +10,9 @@ def assign(hp, model='ic_sanchez', replaced_by = None):
     try:
         with open(db_weight + hp, "r") as fr:
             data = fr.read().split("\n")
-            if(model == 'ic_sanchez'):
+            if(model == 'ic'):
                 return (float(data[1]), replaced_by)
-            if(model == 'intuitive'):
+            if(model == 'w'):
                 return (float(data[2]), replaced_by)
             return (1.0, replaced_by)
     except FileNotFoundError:
