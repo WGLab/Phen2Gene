@@ -44,9 +44,13 @@ CU_tops = [0,0,0,0,0,0,0]
 DGD_tops = [0,0,0,0,0,0,0]
 TAF1_tops = [0,0,0,0,0,0,0]
 
+AJHG_error_msg = {}
+CSH_error_msg = {}
+CU_error_msg = {}
+DGD_error_msg = {}
+TAF1_error_msg = {}
 
-
-def run_data(data_set, tops):
+def run_data(data_set, tops, error_msg):
     
     data_set_probe_dict = None
     
@@ -63,41 +67,47 @@ def run_data(data_set, tops):
     probe_gene_rank_dict = {}
     
     for f in os.listdir(data_set):
+        error_msg[f] = ''
         probe_gene = 'TAF1'
         if(data_set != TAF1):
             probe_gene = data_set_probe_dict[f]
         output_name = 'out/' + f
         cmd = 'python phen2gene.py -f {} -w w -out {}'.format(data_set + f, output_name)
         #print(cmd)
-        os.system(cmd)
-        with open(output_name + "/output_file.associated_gene_list", "r") as fr1:
-            
-            line = fr1.readline()
-            line = fr1.readline()
-            while(line):
-                if(line.split("\t")[1] == probe_gene):
-                    rank = int(line.rstrip("\n").split('\t')[0])
-                    #probe_gene_rank_dict[f] = data_row
-                    if(rank <= 10):
-                        tops[0] += 1
-                    if(rank <= 25):
-                        tops[1] += 1
-                    if(rank <= 50):
-                        tops[2] += 1
-                    if(rank <= 100):
-                        tops[3] += 1
-                    if(rank <= 250):
-                        tops[4] += 1
-                    if(rank <= 500):
-                        tops[5] += 1
-                    if(rank <= 1000):
-                        tops[6] += 1
-                    break
+        try:
+            os.system(cmd)
+            with open(output_name + "/output_file.associated_gene_list", "r") as fr1:
+
                 line = fr1.readline()
-            
-                
-        rm_cmd = "rm -r " + output_name
-        os.system(rm_cmd)
+                line = fr1.readline()
+                while(line):
+                    if(line.split("\t")[1] == probe_gene):
+                        rank = int(line.rstrip("\n").split('\t')[0])
+                        #probe_gene_rank_dict[f] = data_row
+                        if(rank <= 10):
+                            tops[0] += 1
+                        if(rank <= 25):
+                            tops[1] += 1
+                        if(rank <= 50):
+                            tops[2] += 1
+                        if(rank <= 100):
+                            tops[3] += 1
+                        if(rank <= 250):
+                            tops[4] += 1
+                        if(rank <= 500):
+                            tops[5] += 1
+                        if(rank <= 1000):
+                            tops[6] += 1
+                        break
+                    line = fr1.readline()
+
+
+            rm_cmd = "rm -r " + output_name
+            os.system(rm_cmd)
+        except Exception as e:
+            error_msg[f] += str(e)
+    
+
     
 def cmp(tops, standards):
     
@@ -127,43 +137,60 @@ def cmp(tops, standards):
     elif(tops[3] < standards[3]):
         print('top 100 get worse!')
     else:
-        print('Top 100 doesn\'t change.')        
-
-
-run_data(AJHG, AJHG_tops)
+        print('Top 100 doesn\'t change.')   
+        
+def print_error_msg(error_msg):
+    no_error = True
+    for f in error_msg.keys():
+        if(len(error_msg[f]) > 0):
+            no_error = False
+            print(error_msg[f])
+    if(no_error):
+        print('No Serrors found.\n')
+        
+run_data(AJHG, AJHG_tops, AJHG_error_msg)
 for i in range(len(AJHG_tops)):
     AJHG_tops[i] = round(AJHG_tops[i]/AJHG_total_num * 100, 1)
     
 
 
-run_data(CSH, CSH_tops)
+run_data(CSH, CSH_tops,CSH_error_msg)
 for i in range(len(CSH_tops)):
     CSH_tops[i] = round(CSH_tops[i]/CSH_total_num * 100, 1)
 
 
 '''
-run_data(DGD, DGD_tops)
+run_data(DGD, DGD_tops, DGD_error_msg)
 for i in range(len(DGD_tops)):
     DGD_tops[i] = round(DGD_tops[i]/DGD_total_num * 100, 1)
 '''
 
-run_data(TAF1, TAF1_tops)
+run_data(TAF1, TAF1_tops, TAF1_error_msg)
 for i in range(len(TAF1_tops)):
     TAF1_tops[i] = round(TAF1_tops[i]/TAF1_total_num * 100, 1)
     
 
-run_data(CU, CU_tops)
+run_data(CU, CU_tops, CU_error_msg)
 for i in range(len(CU_tops)):
     CU_tops[i] = round(CU_tops[i]/CU_total_num * 100, 1)
 
 print('\nTesting the new KnowledgeBase on AJHG data')
+print_error_msg(AJHG_error_msg)
 cmp(AJHG_tops, AJHG_standards)
+
 print('\nTesting the new KnowledgeBase on CSH data') 
+print_error_msg(CSH_error_msg)
 cmp(CSH_tops, CSH_standards)
+
 #print('\nTesting the new KnowledgeBase on DGD data') 
+#print_error_msg(DGD_error_msg)
 #cmp(DGD_tops, DGD_standards)
+
 print('\nTesting the new KnowledgeBase on TAF1 data')
+print_error_msg(TAF1_error_msg)
 cmp(TAF1_tops, TAF1_standards)
+
 print('\nTesting the new KnowledgeBase on Columbia U data')
+print_error_msg(CU_error_msg)
 cmp(CU_tops, CU_standards)
 
