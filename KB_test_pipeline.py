@@ -1,4 +1,8 @@
 import os
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 AJHG = 'test_pipeline/AJHG/'
 CSH = 'test_pipeline/CSH/'
@@ -38,6 +42,12 @@ CU_standards  = [3.7, 11.1, 22.2, 22.2, 29.6, 37.0, 51.9]
 DGD_standards  = [7.1, 18.8, 18.8, 21.2, 30.6, 35.3, 44.7]
 TAF1_standards = [28.6, 71.4, 100.0, 100.0, 100.0, 100.0, 100.0]
 
+AJHG_old_phenolyzer = [0,0,3.6,7.2]
+CSH_old_phenolyzer = [20.8,23.6,23.6,25]
+CU_old_phenolyzer  = [11.1,11.1,22.2,29.6]
+DGD_old_phenolyzer  = [9.4,15.3,17.6,18.8]
+TAF1_old_phenolyzer = [0.0,0.0,0.0,0.0]
+
 AJHG_tops = [0,0,0,0,0,0,0]
 CSH_tops = [0,0,0,0,0,0,0]
 CU_tops = [0,0,0,0,0,0,0]
@@ -54,6 +64,7 @@ def run_data(data_set, tops, error_msg):
     
     data_set_probe_dict = None
     
+    not_found = 0
     
     if(data_set == AJHG):
         data_set_probe_dict = AJHG_probe_gene
@@ -72,7 +83,8 @@ def run_data(data_set, tops, error_msg):
         if(data_set != TAF1):
             probe_gene = data_set_probe_dict[f]
         output_name = 'out/' + f
-        cmd = 'python phen2gene.py -f {} -w w -out {}'.format(data_set + f, output_name)
+        #cmd = 'python phen2gene.py -f {} -w w -out {}'.format(data_set + f, output_name)
+        cmd = 'python phen2gene.py -f {} -w w -out {} -j'.format(data_set + f, output_name)
         #print(cmd)
         try:
             os.system(cmd)
@@ -80,8 +92,10 @@ def run_data(data_set, tops, error_msg):
 
                 line = fr1.readline()
                 line = fr1.readline()
+                found = False
                 while(line):
                     if(line.split("\t")[1] == probe_gene):
+                        found = True
                         rank = int(line.rstrip("\n").split('\t')[0])
                         #probe_gene_rank_dict[f] = data_row
                         if(rank <= 10):
@@ -100,14 +114,16 @@ def run_data(data_set, tops, error_msg):
                             tops[6] += 1
                         break
                     line = fr1.readline()
-
+                
+                if(not found):
+                    not_found += 1
 
             rm_cmd = "rm -r " + output_name
             os.system(rm_cmd)
         except Exception as e:
             error_msg[f] += str(e)
     
-
+    return not_found
     
 def cmp(tops, standards):
     
@@ -146,51 +162,122 @@ def print_error_msg(error_msg):
             no_error = False
             print(error_msg[f])
     if(no_error):
-        print('No Serrors found.\n')
+        print('No errors found.\n')
+
         
-run_data(AJHG, AJHG_tops, AJHG_error_msg)
+def autolabel(rects,ax):
+    """Attach a text label above each bar in *rects*, displaying its height."""
+    for rect in rects:
+        height = rect.get_height()
+        ax.annotate('{}'.format(height),
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom')
+        
+        
+def plot(p2g, pheno, fig_name):
+    p2g = p2g[0:4]
+    x = np.arange(len(p2g))  # the label locations
+    width = 0.35  # the width of the bars
+    labels = ['Top 10', 'Top 25', 'Top 50', 'Top 100']
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x - width/2, p2g, width, label='Phen2Gene')
+    rects2 = ax.bar(x + width/2, pheno, width, label='Phenolyzer')
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('Percentage')
+    ax.set_title('Top Ranks')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+
+
+    
+
+
+    autolabel(rects1,ax)
+    autolabel(rects2,ax)
+
+    fig.tight_layout()
+
+    plt.savefig(fig_name + '.png' , format='png')
+
+    
+def out_put_tsv(p2g, pheno, f_name):
+    with open(f_name + '.tsv', 'w+') as fw:
+        fw.write('\tPhen2Gene\tPhenolyzer\n')
+        fw.write('Top 10\t{}\t{}\n'.format(str(p2g[0]), str(pheno[0]) ))
+        fw.write('Top 25\t{}\t{}\n'.format(str(p2g[1]), str(pheno[1]) ))
+        fw.write('Top 50\t{}\t{}\n'.format(str(p2g[2]), str(pheno[2]) ))
+        fw.write('Top 100\t{}\t{}\n'.format(str(p2g[3]), str(pheno[3]) ))
+
+        
+        
+        
+not_found_AJHG = run_data(AJHG, AJHG_tops, AJHG_error_msg)
 for i in range(len(AJHG_tops)):
     AJHG_tops[i] = round(AJHG_tops[i]/AJHG_total_num * 100, 1)
     
 
 
-run_data(CSH, CSH_tops,CSH_error_msg)
+not_found_CSH = run_data(CSH, CSH_tops,CSH_error_msg)
 for i in range(len(CSH_tops)):
     CSH_tops[i] = round(CSH_tops[i]/CSH_total_num * 100, 1)
 
 
-'''
-run_data(DGD, DGD_tops, DGD_error_msg)
+
+not_found_DGD = run_data(DGD, DGD_tops, DGD_error_msg)
 for i in range(len(DGD_tops)):
     DGD_tops[i] = round(DGD_tops[i]/DGD_total_num * 100, 1)
-'''
 
-run_data(TAF1, TAF1_tops, TAF1_error_msg)
+
+not_found_TAF1 = run_data(TAF1, TAF1_tops, TAF1_error_msg)
 for i in range(len(TAF1_tops)):
     TAF1_tops[i] = round(TAF1_tops[i]/TAF1_total_num * 100, 1)
-    
 
-run_data(CU, CU_tops, CU_error_msg)
+not_found_CU = run_data(CU, CU_tops, CU_error_msg)
 for i in range(len(CU_tops)):
     CU_tops[i] = round(CU_tops[i]/CU_total_num * 100, 1)
 
 print('\nTesting the new KnowledgeBase on AJHG data')
 print_error_msg(AJHG_error_msg)
+print(AJHG_tops)
 cmp(AJHG_tops, AJHG_standards)
+plot(AJHG_tops,AJHG_old_phenolyzer, 'AJHG')
+out_put_tsv(AJHG_tops,AJHG_old_phenolyzer, 'AJHG')
 
 print('\nTesting the new KnowledgeBase on CSH data') 
 print_error_msg(CSH_error_msg)
+print(CSH_tops)
 cmp(CSH_tops, CSH_standards)
+plot(CSH_tops,CSH_old_phenolyzer, 'CSH')
+out_put_tsv(CSH_tops,CSH_old_phenolyzer, 'CSH')
 
-#print('\nTesting the new KnowledgeBase on DGD data') 
-#print_error_msg(DGD_error_msg)
-#cmp(DGD_tops, DGD_standards)
+print('\nTesting the new KnowledgeBase on DGD data') 
+print_error_msg(DGD_error_msg)
+print(DGD_tops)
+cmp(DGD_tops, DGD_standards)
+plot(DGD_tops,DGD_old_phenolyzer, 'DGD')
+out_put_tsv(DGD_tops,DGD_old_phenolyzer, 'DGD')
 
 print('\nTesting the new KnowledgeBase on TAF1 data')
 print_error_msg(TAF1_error_msg)
+print(TAF1_tops)
 cmp(TAF1_tops, TAF1_standards)
+plot(TAF1_tops[0:4],TAF1_old_phenolyzer, 'TAF1')
+out_put_tsv(TAF1_tops[0:4],TAF1_old_phenolyzer, 'TAF1')
 
 print('\nTesting the new KnowledgeBase on Columbia U data')
 print_error_msg(CU_error_msg)
+print(CU_tops)
 cmp(CU_tops, CU_standards)
+plot(CU_tops,CU_old_phenolyzer, 'CU')
+out_put_tsv(CU_tops,CU_old_phenolyzer, 'CU')
+
+print(str(not_found_AJHG))
+print(str(not_found_CSH))
+print(str(not_found_DGD))
+print(str(not_found_TAF1))
+print(str(not_found_CU))
 
