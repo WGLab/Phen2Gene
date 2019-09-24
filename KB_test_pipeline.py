@@ -82,10 +82,7 @@ def run_data(data_set, tops, error_msg):
         if(data_set != TAF1):
             probe_gene = data_set_probe_dict[f]
         output_name = 'out/' + f
-        cmd = 'python phen2gene.py -f {} -w w -out {}'.format(data_set + f, output_name)
-        
-        ## Only prioritize those genes in JAX database
-        #cmd = 'python phen2gene.py -f {} -w w -out {} -j'.format(data_set + f, output_name)
+        cmd = 'python phen2gene.py -f {} -w w -out {} -j'.format(data_set + f, output_name)
         #print(cmd)
         try:
             os.system(cmd)
