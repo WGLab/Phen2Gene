@@ -29,7 +29,6 @@ for line in open(probe_gene, 'r'):
         DGD_probe_gene[data[1]] = data[2]
 
 
-
 AJHG_total_num = 83
 CSH_total_num = 72
 CU_total_num = 27
@@ -240,6 +239,8 @@ not_found_CU = run_data(CU, CU_tops, CU_error_msg)
 for i in range(len(CU_tops)):
     CU_tops[i] = round(CU_tops[i]/CU_total_num * 100, 1)
 
+
+
 print('\nTesting the new KnowledgeBase on AJHG data')
 print_error_msg(AJHG_error_msg)
 print(AJHG_tops)
@@ -281,3 +282,13 @@ print(str(not_found_DGD))
 print(str(not_found_TAF1))
 print(str(not_found_CU))
 
+
+AJHG_CSH_top = CSH_tops[0:4]
+AJHG_CSH_old_phenolyzer = CSH_old_phenolyzer
+
+for i in range(len(AJHG_CSH_top)):
+    AJHG_CSH_top[i] += AJHG_tops[i]
+    AJHG_CSH_old_phenolyzer[i] += AJHG_old_phenolyzer[i]
+
+plot(AJHG_CSH_top, AJHG_CSH_old_phenolyzer, 'AJHG_CSH')
+out_put_tsv(AJHG_CSH_top,AJHG_CSH_old_phenolyzer, 'AJHG_CSH')
