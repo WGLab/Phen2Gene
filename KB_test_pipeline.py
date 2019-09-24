@@ -82,7 +82,6 @@ def run_data(data_set, tops, error_msg):
         if(data_set != TAF1):
             probe_gene = data_set_probe_dict[f]
         output_name = 'out/' + f
-        #cmd = 'python phen2gene.py -f {} -w w -out {}'.format(data_set + f, output_name)
         cmd = 'python phen2gene.py -f {} -w w -out {} -j'.format(data_set + f, output_name)
         #print(cmd)
         try:
@@ -225,7 +224,7 @@ for i in range(len(CSH_tops)):
     CSH_tops[i] = round(CSH_tops[i]/CSH_total_num * 100, 1)
 
 
-
+'''
 not_found_DGD = run_data(DGD, DGD_tops, DGD_error_msg)
 for i in range(len(DGD_tops)):
     DGD_tops[i] = round(DGD_tops[i]/DGD_total_num * 100, 1)
@@ -281,7 +280,7 @@ print(str(not_found_CSH))
 print(str(not_found_DGD))
 print(str(not_found_TAF1))
 print(str(not_found_CU))
-
+'''
 
 AJHG_CSH_top = CSH_tops[0:4]
 AJHG_CSH_old_phenolyzer = CSH_old_phenolyzer
