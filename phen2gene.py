@@ -9,6 +9,7 @@ from lib.output import write_list as write_list_tsv
 from lib.json_format import write_list as write_list_json
 from lib.weight_assignment import assign
 from lib.calculation import calc, calc_simple
+from lib.filter import only_jax
 
 knowledgebase = "./lib/Knowledgebase/"
 
@@ -38,6 +39,8 @@ parser.add_argument('-out', '--output',  help='Specify the path to store output 
 parser.add_argument('-n', '--name', metavar='output.file.name', help='Name the output file.')
 
 parser.add_argument('-json', '--json', action='store_true', help='Output the file in json format.')
+
+parser.add_argument('-j', '--jax_only', action='store_true', help='Select those gene only in JAX HPO database.')
 
 args = parser.parse_args()
 
@@ -186,12 +189,24 @@ if(args.weight_only):
     print("Finished.")
     print("Output path: " + output_path  + "\n") 
     exit()
-            
+
+### down_weighting
+#hp_weight_dict = down_weight(hp_weight_dict)
+    
 # Create a dict to store associated gene data
 if(weight_model.lower() == 's'):
     gene_dict = calc_simple(hp_weight_dict, args.verbosity)
 else:
     gene_dict = calc(hp_weight_dict, args.verbosity)
+    
+
+    
+### filter out those genes not in JAX DB
+if(args.jax_only):
+    print('select those genes only in jax')
+    gene_dict = only_jax(gene_dict, hp_weight_dict.keys())
+
+    
 ### output the final prioritized associated gene list
 # Prioritize all found genes
 gene_dict = gene_prioritization(gene_dict)
