@@ -4,13 +4,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-AJHG = 'test_pipeline/AJHG/'
-CSH = 'test_pipeline/CSH/'
-DGD = 'test_pipeline/DGD/'
-CU = 'test_pipeline/ColumbiaU/'
-TAF1 = 'test_pipeline/TAF1/'
+AJHG = 'testing_data/AJHG/'
+CSH = 'testing_data/CSH/'
+DGD = 'testing_data/DGD/'
+CU = 'testing_data/ColumbiaU/'
+TAF1 = 'testing_data/TAF1/'
 
-probe_gene = 'test_pipeline/probe_info'
+probe_gene = 'testing_data/probe_info'
 
 AJHG_probe_gene = {}
 CSH_probe_gene = {}
@@ -224,7 +224,6 @@ for i in range(len(CSH_tops)):
     CSH_tops[i] = round(CSH_tops[i]/CSH_total_num * 100, 1)
 
 
-'''
 not_found_DGD = run_data(DGD, DGD_tops, DGD_error_msg)
 for i in range(len(DGD_tops)):
     DGD_tops[i] = round(DGD_tops[i]/DGD_total_num * 100, 1)
@@ -280,7 +279,6 @@ print(str(not_found_CSH))
 print(str(not_found_DGD))
 print(str(not_found_TAF1))
 print(str(not_found_CU))
-'''
 
 AJHG_CSH_top = CSH_tops[0:4]
 AJHG_CSH_old_phenolyzer = CSH_old_phenolyzer
