@@ -1,7 +1,7 @@
 import networkx as nx 
 
 jax_db = 'lib/JAX_DB/'
-hpo = 'lib/hpo.obo'
+hpo = '../testing_data/hpo.obo'
 
 def only_jax(gene_dict, hp_list):
     jax_gene = set()
