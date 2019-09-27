@@ -89,11 +89,13 @@ def run_data(data_set, tops, error_msg):
             probe_gene = data_set_probe_dict[f]
         output_name = 'out/' + f
         cmd = 'python phen2gene.py -f {} -w w -out {} -j'.format(data_set + f, output_name)
-        #print(cmd)
+        print(cmd)
         try:
-            for dirpath, dirnames, files in os.walk('out'):
-                if (not dirpath and not files) or args.force:
-                    os.system(cmd)
+            if not os.path.exists('out'):
+                os.system(cmd)
+            if not os.listdir('out') or args.force:
+                os.system(cmd)
+                
             with open(output_name + "/output_file.associated_gene_list", "r") as fr1:
 
                 line = fr1.readline()
@@ -225,7 +227,7 @@ try:
     for i in range(len(CSH_tops)):
         CSH_tops[i] = round(CSH_tops[i]/CSH_total_num * 100, 1)
 
-        not_found_DGD = run_data(DGD, DGD_tops, DGD_error_msg)
+    not_found_DGD = run_data(DGD, DGD_tops, DGD_error_msg)
     for i in range(len(DGD_tops)):
         DGD_tops[i] = round(DGD_tops[i]/DGD_total_num * 100, 1)
 
