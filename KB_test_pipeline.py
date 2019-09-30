@@ -91,9 +91,7 @@ def run_data(data_set, tops, error_msg):
         cmd = 'python phen2gene.py -f {} -w w -out {} -j'.format(data_set + f, output_name)
         print(cmd)
         try:
-            if not os.path.exists('out'):
-                os.system(cmd)
-            if not os.listdir('out') or args.force:
+            if not os.path.isdir('out') or not os.listdir('out') or args.force:
                 os.system(cmd)
                 
             with open(output_name + "/output_file.associated_gene_list", "r") as fr1:
@@ -126,9 +124,6 @@ def run_data(data_set, tops, error_msg):
                 if(not found):
                     not_found += 1
 
-            if args.force:
-                rm_cmd = "rm -r " + output_name
-                os.system(rm_cmd)
         except Exception as e:
             error_msg[f] += str(e)
             return
@@ -218,6 +213,9 @@ def output_tsv(p2g, pheno, f_name):
         fw.write('Top 50\t{}\t{}\n'.format(str(p2g[2]), str(pheno[2]) ))
         fw.write('Top 100\t{}\t{}\n'.format(str(p2g[3]), str(pheno[3]) ))
 
+if args.force:
+    rm_cmd = "rm -rf out"
+    os.system(rm_cmd)
 try:
     not_found_AJHG = run_data(AJHG, AJHG_tops, AJHG_error_msg)
     for i in range(len(AJHG_tops)):
@@ -239,8 +237,7 @@ try:
     for i in range(len(CU_tops)):
         CU_tops[i] = round(CU_tops[i]/CU_total_num * 100, 1)
 except KeyError:
-    print(KeyError)
-
+    print ("key error, missing file?")
 
 print('\nTesting the new KnowledgeBase on AJHG data')
 print_error_msg(AJHG_error_msg)
