@@ -51,7 +51,7 @@ sns.set_style('white')
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['font.family'] = 'sans-serif'
 matplotlib.rcParams['font.sans-serif'] = ['Arial']
-matplotlib.rcParams['font.size'] = 16
+matplotlib.rcParams['font.size'] = 15
 
 fig, ax = plt.subplots(1)
 
@@ -73,7 +73,7 @@ ax.set_xticks(alefts-width*.5)
 autolabel(rects, ax)
 #ax.set_title("Accuracy at Finding Causal Genes")
 #ax.legend(loc='upper left')
-fig.legend(loc='upper left', ncol=1)
+fig.legend(loc='upper left', ncol=1,bbox_to_anchor=(0, 1.1))
 #if max(phenolyzer) > 10:
     #for i,o in enumerate(phenolyzer):
      #   ax.text(alefts[i]-width*.25, 0.14 if o<1 else 5, '%.3f' % phenolyzer[i] if o<1 else '%.1f' % phenolyzer[i], color='k', size=8) #2 for log2
