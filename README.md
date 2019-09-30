@@ -88,4 +88,20 @@ python phen2gene.py -f sample.txt -v -out out/out
 
 Please use the [GitHub's Issues page](https://github.com/WGLab/LinkedSV/issues) if you have questions.
 
+## Creating the figures
 
+Download fetch from GitHub first.
+Then run:
+```
+bash grabdata.sh
+```
+
+```
+python KB_test_pipeline.py
+```
+
+```
+bash accuracy.sh
+```
+
+Your figures are in the folder `figures`.
