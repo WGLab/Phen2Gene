@@ -66,23 +66,23 @@ optional arguments:
 Input files to Phen2Gene should contains only HPO ID(s), seperated by new line character(`\n`).
 
 ## Example
-1. Input HPO ID(s) manually
-```
-python phen2gene.py -m HP:0000001 HP:0000021 HP:0000027 HP:0030905 HP:0030910 HP:0010628 -out out/out
-```
-2. Input HPO ID(s) by files
+
+1. Input HPO ID(s) by files
 ```
 python phen2gene.py -f sample.txt -out out/out
 ```
-3. Use Weighted Score Merge
+2. Use Weighted Score Merge
 ```
 python phen2gene.py -f sample.txt -w w -out out/out
 ```
-4. Run Phen2gene verbosely
+3. Run Phen2gene verbosely
 ```
 python phen2gene.py -f sample.txt -v -out out/out
 ```
-
+4. Input HPO ID(s) manually
+```
+python phen2gene.py -m HP:0000021 HP:0000027 HP:0030905 HP:0010628 -out out/out
+```
 
 ## Getting Help
 
