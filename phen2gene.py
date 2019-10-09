@@ -69,8 +69,8 @@ if(not output_path.endswith("/")):
 if(user_defineds != None):
     weight_model = 'd'
 else:
-    if( weight_model == None or (weight_model.lower() != 'u' and weight_model.lower() != 's' and weight_model.lower() != 'w' ) ):
-        weight_model = 'ic'
+    if( weight_model == None or (weight_model.lower() != 'u' and weight_model.lower() != 's' and weight_model.lower() != 'ic' ) ):
+        weight_model = 'w'
 
 # Print info of weighting model on terminal, if verbosity
 if(args.verbosity):
