@@ -127,7 +127,7 @@ if(manuals != None and weight_model != 'd'):
     for HP_item in manuals:
         # Simple check if HPO ID or not
         if(HP_item.startswith("HP:") and len(HP_item) == 10 and HP_item[3:].isnumeric()):
-            HPO_id.append(HP_item)
+            HPO_id.append(HP_item.replace(':','_'))
         else:
             if(args.verbosity):
                 print(HP_item, "is not a valid HPO ID,", sep = " ")
