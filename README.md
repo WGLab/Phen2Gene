@@ -69,15 +69,15 @@ Input files to Phen2Gene should contains only HPO ID(s), seperated by new line c
 
 1. Input HPO ID(s) by files
 ```
-python phen2gene.py -f sample.txt -out out/out
+python phen2gene.py -f HPO_sample.txt -out out/out
 ```
 2. Use Weighted Score Merge
 ```
-python phen2gene.py -f sample.txt -w w -out out/out
+python phen2gene.py -f HPO_sample.txt -w w -out out/out
 ```
 3. Run Phen2gene verbosely
 ```
-python phen2gene.py -f sample.txt -v -out out/out
+python phen2gene.py -f HPO_sample.txt -v -out out/out
 ```
 4. Input HPO ID(s) manually
 ```
