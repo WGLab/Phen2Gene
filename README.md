@@ -21,7 +21,7 @@ Here shows installing in commandline by `Anaconda`: `conda install numpy`.
 ### Phen2Gene
 `git clone https://github.com/WGLab/Phen2Gene.git`
 
-### Install Time
+### Installation Time
 It may take a few minutes to install Phen2Gene.
 
 ### After Installation
