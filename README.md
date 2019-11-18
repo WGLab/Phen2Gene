@@ -1,6 +1,6 @@
 # Phen2Gene
 
-Phen2Gene is a phenotype driven gene prioritization tool, that takes HPO(Human Phenotype Ontology) ID(s) as inputs, searches and prioritize suspected genes.
+Phen2Gene is a phenotype driven gene prioritization tool, that takes HPO(Human Phenotype Ontology) ID(s) as inputs, searches and prioritize suspected genes.  It is distributed under [the MIT License by Wang Genomics Lab](https://wglab.mit-license.org/).
 
 ## Prerequisite
 ```
