@@ -1,0 +1,7 @@
+out/*
+*.log
+*.pyc
+lib/__pycache__
+testing_data/*
+qsublog/*
+rankings/*
