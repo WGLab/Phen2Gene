@@ -1,4 +1,4 @@
 Rank	Gene	ID	Score	Status
-1	RECQL4	9401	1	SeedGene
-2	ESR1	2099	0.01536	Predicted
-3	PRSS23	11098	0.01249	Predicted
+1	RECQL4	9401	24.63	SeedGene
+2	PRSS23	11098	0.1425	Predicted
+3	ESR1	2099	0.00262	Predicted

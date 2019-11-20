@@ -40,7 +40,6 @@ parser.add_argument('-n', '--name', metavar='output.file.name', help='Name the o
 
 parser.add_argument('-json', '--json', action='store_true', help='Output the file in json format.')
 
-parser.add_argument('-j', '--jax_only', action='store_true', help='Select those gene only in JAX HPO database.')
 
 args = parser.parse_args()
 
@@ -199,12 +198,6 @@ if(weight_model.lower() == 's'):
 else:
     gene_dict = calc(hp_weight_dict, args.verbosity)
     
-
-    
-### filter out those genes not in JAX DB
-if(args.jax_only):
-    print('select those genes only in jax')
-    gene_dict = only_jax(gene_dict, hp_weight_dict.keys())
 
     
 ### output the final prioritized associated gene list
