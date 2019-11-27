@@ -1,7 +1,0 @@
-Rank	Gene	ID	Score	Status
-1	FGFR3	2261	1	SeedGene
-2	KIT	3815	0.9394	SeedGene
-3	TP53	7157	0.9148	SeedGene
-4	PTEN	5728	0.8608	SeedGene
-5	FGFR1	2260	0.8341	SeedGene
-6	TGFB1	7040	0.8148	SeedGene
