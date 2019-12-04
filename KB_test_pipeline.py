@@ -54,6 +54,15 @@ CU_old_phenolyzer  = [11.1, 11.1, 18.5, 29.6, 33.3, 37.0, 40.7]
 DGD_old_phenolyzer  =  [9.4, 15.3, 17.6, 18.8, 21.2, 22.4, 30.6]
 TAF1_old_phenolyzer = [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
 
+'''
+# first one is top15
+AJHG_old_phenolyzer = [0,0,3.6,7.2,7.2,7.2,7.2,7.2]
+CSH_old_phenolyzer = [20.8,23.6,23.6,25,25,25,25]
+CU_old_phenolyzer  = [11.1, 11.1, 18.5, 29.6, 33.3, 37.0, 40.7]
+DGD_old_phenolyzer  =  [11.8, 15.3, 17.6, 18.8, 21.2, 22.4, 30.6]
+TAF1_old_phenolyzer = [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+'''
+
 AJHG_CSH_old_phenolyzer1 = [0,0,0,0,0,0,0]
 CU_old_phenolyzer1 = [0,0,0,0,0,0,0]
 DGD_old_phenolyzer1 = [0,0,0,0,0,0,0]
@@ -103,8 +112,8 @@ def run_data(data_set, tops, error_msg):
             print(cmd) 
             os.system('echo "{}" | qsub -cwd -V -e qsublog/{}.e -o qsublog/{}.o'.format(cmd, f,f))
 
-        print('now sleeping for 45s')
-        time.sleep(45)
+        print('now sleeping for 1 min')
+        time.sleep(60)
         print('now awaken')
 
     for f in os.listdir(data_set):
@@ -311,6 +320,7 @@ output_tsv(CU_tops,CU_old_phenolyzer, 'CU')
 #print(str(not_found_CU))
 
 AJHG_CSH_top = CSH_tops
+#AJHG_CSH_old_phenolyzer = [9.7, 11.0, 12.9, 15.5, 20.6, 26.5, 29.0]
 AJHG_CSH_old_phenolyzer = [9.7, 11.0, 12.9, 15.5, 20.6, 26.5, 29.0]
 
 for i in range(len(AJHG_CSH_top)):
