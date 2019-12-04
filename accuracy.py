@@ -49,8 +49,8 @@ def autolabel(rects, ax):
 import seaborn as sns
 sns.set_style('white')
 matplotlib.rcParams['pdf.fonttype'] = 42
-matplotlib.rcParams['font.family'] = 'sans-serif'
-matplotlib.rcParams['font.sans-serif'] = ['Arial']
+#matplotlib.rcParams['font.family'] = 'sans-serif'
+#matplotlib.rcParams['font.sans-serif'] = ['Arial']
 matplotlib.rcParams['font.size'] = 15
 
 fig, ax = plt.subplots(1)
