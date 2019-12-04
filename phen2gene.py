@@ -40,6 +40,12 @@ parser.add_argument('-n', '--name', metavar='output.file.name', help='Name the o
 
 parser.add_argument('-json', '--json', action='store_true', help='Output the file in json format.')
 
+parser.add_argument('-j', '--jax_only', action='store_true', help='Select those gene only in JAX HPO database.')
+
+parser.add_argument('-g', '--gene_weight', action='store_true', help='Apply the weights for genes.')
+
+parser.add_argument('-c', '--cutoff', action='store_true', help='cut off weights of some selected gene.')
+
 
 args = parser.parse_args()
 
@@ -53,6 +59,9 @@ output_file_name = args.name
 
 json_formatting = args.json
 
+gene_weight = args.gene_weight
+
+cutoff = args.cutoff
 # If no HPO ID(s) available, exit the scripts.
 if(files == None and manuals == None and user_defineds == None):
     print("\n\nPlease input a file, or manually input HPO ID(s).\n\n", file=sys.stderr)
@@ -68,7 +77,7 @@ if(not output_path.endswith("/")):
 if(user_defineds != None):
     weight_model = 'd'
 else:
-    if( weight_model == None or (weight_model.lower() != 'u' and weight_model.lower() != 's' and weight_model.lower() != 'ic' ) ):
+    if( weight_model == None or (weight_model.lower() != 'u' and weight_model.lower() != 's' and weight_model.lower() != 'ic' and weight_model.lower() != 'sk') ):
         weight_model = 'w'
 
 # Print info of weighting model on terminal, if verbosity
@@ -81,6 +90,9 @@ if(args.verbosity):
         #weight_model = 'none'
     elif(weight_model.lower() == 'ic'):
         print("\nHPO weighting model: Ontology-based Informatin Content\n")
+        #weight_model = 'ic_sanchez'
+    elif(weight_model.lower() == 'sk'):
+        print("\nHPO weighting model: Skewness\n")
         #weight_model = 'ic_sanchez'
     else:
         print("\nHPO weighting model: User-defined\n")
@@ -169,6 +181,8 @@ if(weight_model == 'd'):
                         
             except FileNotFoundError:
                 print("\n"+ file_item + " not found!\n", file=sys.stderr)
+#elif(weight_model == 'sk'):
+    
 # HPO weights are determined by weighting models
 else:
     for hp in HPO_id:
@@ -196,8 +210,14 @@ if(args.weight_only):
 if(weight_model.lower() == 's'):
     gene_dict = calc_simple(hp_weight_dict, args.verbosity)
 else:
-    gene_dict = calc(hp_weight_dict, args.verbosity)
+    gene_dict = calc(hp_weight_dict, args.verbosity, gene_weight, cutoff)
     
+
+    
+### filter out those genes not in JAX DB
+if(args.jax_only):
+    print('select those genes only in jax')
+    gene_dict = only_jax(gene_dict, hp_weight_dict.keys())
 
     
 ### output the final prioritized associated gene list
