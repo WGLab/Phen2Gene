@@ -109,12 +109,12 @@ def run_data(data_set, tops, error_msg):
                 probe_gene = data_set_probe_dict[f]
             output_name = 'out/' + f
             cmd = 'python phen2gene.py -f {} -w sk -out {}'.format(data_set + f, output_name)
-            print(cmd) 
-            os.system('echo "{}" | qsub -cwd -V -e qsublog/{}.e -o qsublog/{}.o'.format(cmd, f,f))
-
-        print('now sleeping for 1 min')
-        time.sleep(60)
-        print('now awaken')
+            #print(cmd) 
+            #os.system('echo "{}" | qsub -cwd -V -e qsublog/{}.e -o qsublog/{}.o'.format(cmd, f,f))
+            os.system(cmd)
+        #print('now sleeping for 1 min')
+        #time.sleep(60)
+        #print('now awaken')
 
     for f in os.listdir(data_set):
         error_msg[f] = ''
