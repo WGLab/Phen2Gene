@@ -1,107 +1,102 @@
 # Phen2Gene
 
-Phen2Gene is a phenotype driven gene prioritization tool, that takes HPO(Human Phenotype Ontology) ID(s) as inputs, searches and prioritize suspected genes.  It is distributed under [the MIT License by Wang Genomics Lab](https://wglab.mit-license.org/).
+Phen2Gene is a phenotype-driven gene prioritization tool, that takes HPO (Human Phenotype Ontology) IDs as inputs, searches and prioritizes candidate causal disease genes.  It is distributed under [the MIT License by Wang Genomics Lab](https://wglab.mit-license.org/).  Additionally we have provided a [web server](https://phen2gene.wglab.org) and an associated RESTful API service for running Phen2Gene.  Finally, a mobile app for Phen2Gene and several other genetic diagnostic tools from our lab is being tested and will be available soon.
 
-## Prerequisite
-```
-Python 3.7
-Numpy
-```
+## Prerequisites
+
+If you do not wish to use Anaconda, simply install the packages in the file `environment.yml` using `pip`.
 
 ## Installation
-### Python 3.7
-Here shows installing Python 3.7 by `Anaconda` (Anaconda installation instruction: https://docs.anaconda.com/anaconda/install/). Usually Python 3.7 is installed at the same time Anaconda is installed.
-If you want to run Python 3 under different environment, you may create a new environment for Python 3 in commandline by `conda create -n <environment name> python=3.7`, then `conda activate <environment name>` (on Linux/Mac).
-
-To exit the environment, `source deactivate`.
-
-### Numpy
-Here shows installing in commandline by `Anaconda`: `conda install numpy`.
-
-### Phen2Gene
-`git clone https://github.com/WGLab/Phen2Gene.git`
-
-### Installation Time
-It may take a few minutes to install Phen2Gene.
-
-### After Installation
-`cd YOUR/PATH/TO/PHEN2GENE`
-
-## Usage
-```
-usage: phen2gene.py [-h] [-f [FILE.NAME [FILE.NAME ...]]]
-                    [-ud [TERM&WEIGHT [TERM&WEIGHT ...]]]
-                    [-m [HPID [HPID ...]]] [-w w|u|s|ic|d] [-v] [-wo]
-                    [-out OUTPUT] [-n output.file.name]
-
-Phen2Gene: Phenotype driven gene prioritization tool. Phen2Gene take input
-data (HPO, Human Phenotype Ontology), and output a prioritized suspected gene
-list.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -f [FILE.NAME [FILE.NAME ...]], --file [FILE.NAME [FILE.NAME ...]]
-                        Input file(s) of HP IDs.
-  -ud [TERM&WEIGHT [TERM&WEIGHT ...]], --user_defined [TERM&WEIGHT [TERM&WEIGHT ...]]
-                        Input file(s) of HP IDs and user-defined weights.
-  -m [HPID [HPID ...]], --manual [HPID [HPID ...]]
-                        Input HPO ID(s) one by one, seperated by an empty
-                        space.
-  -w w|u|s|ic|d, --weight_model w|u|s|ic|d
-                        Methods to merge gene scores. 'w' ( Default ) Scoring
-                        by weighted Human-Phenotype terms 'u' Scoring by
-                        Unweighted Human-Phenotype terms
-  -v, --verbosity       Display Phen2Gene workflow verbosely.
-  -wo, --weight_only    Output weights of HPO terms only.
-  -out OUTPUT, --output OUTPUT
-                        Specify the path to store output files. Default
-                        directory path: ./out/
-  -n output.file.name, --name output.file.name
-                        Name the output file.
-
+First, install Miniconda, a minimal installation of Anaconda, which is much smaller and has a faster installation.
+Note that this version is meant for Linux below, macOS and Windows have a different script:
 
 ```
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+```
 
-## Input files
-Input files to Phen2Gene should contains only HPO ID(s), seperated by new line character(`\n`).
+Go through all the prompts (installation in `$HOME` is recommended).
+After Anaconda is installed successfully, simply run:
 
-## Example
+```
+git clone https://github.com/WGLab/Phen2Gene.git
+cd Phen2Gene
+conda env create -f environment.yml
+conda activate phen2gene
+```
 
-1. Input HPO ID(s) by files
+## General Use Case
+
+This software can be used in one of three scenarios:
+
+1. Ideally, you have a list of physician-curated HPO terms describing a patient phenotype and a list of potential candidate disease variants that overlap gene space and you want to narrow down the list of variants by prioritizing candidate disease genes, often in tandem with variant prioritization software, which cannot as of yet score STR expansions or SVs unlike Phen2Gene which is variant agnostic.
+2. You do not have variants, but you have HPO terms and would like to get some candidate genes for your disease that you may want to target sequence, as it is much cheaper than whole-genome or whole-exome sequencing.
+3. If you have clinical notes, you can use tools like [EHR-Phenolyzer](https://github.com/WGLab/EHR-Phenolyzer) or [Doc2HPO](https://impact2.dbmi.columbia.edu/doc2hpo/) for processing clinical notes into HPO terms using natural language processing (NLP) techniques, then apply scenario 1 or 2 as relevant.
+
+
+### Input files
+Input files to Phen2Gene should contain HPO IDs, separated by UNIX-recognized new line characters (i.e., `\n`).
+Alternatively you can use a space separated list of HPO IDs on the command line.
+
+### Examples of how to run Phen2Gene with the `provided HPO_sample.txt` file
+
+1. Input HPO IDs via input file (typical use case)
 ```
-python phen2gene.py -f HPO_sample.txt -out out/out
+python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist
 ```
-2. Use Weighted Score Merge
+2. Use Skewness and Information Content
+
+  * `-w sk` uses a skewness-based weighting of genes for each HPO term (default, and recommended)
+  * `-w w` and `-w ic` do not use skew, but utilize information content in the tree structure (slightly worse performance)
+  * `-w u` is unweighted
+
 ```
-python phen2gene.py -f HPO_sample.txt -w w -out out/out
+python phen2gene.py -f example/HPO_sample.txt -w sk -out out/prioritizedgenelist
 ```
-3. Run Phen2gene verbosely
+3. Run Phen2Gene with verbose messages
 ```
-python phen2gene.py -f HPO_sample.txt -v -out out/out
+python phen2gene.py -f example/HPO_sample.txt -v -out out/prioritizedgenelist
 ```
-4. Input HPO ID(s) manually
+4. Input HPO IDs manually, if desired
 ```
-python phen2gene.py -m HP:0000021 HP:0000027 HP:0030905 HP:0010628 -out out/out
+python phen2gene.py -m HP:0000021 HP:0000027 HP:0030905 HP:0010628 -out out/prioritizedgenelist
 ```
+
+## RESTful API and Web Server
+
+Examples of how to use the [Web Server](https://phen2gene.wglab.org/) and the RESTful API can be found in the [Docs](https://phen2gene.wglab.org/docs).
 
 ## Getting Help
 
-Please use the [GitHub's Issues page](https://github.com/WGLab/LinkedSV/issues) if you have questions.
+Please use the [Phen2Gene issues page](https://github.com/WGLab/Phen2Gene/issues) if you have any questions!
 
-## Creating the figures
+## Creating the benchmark data figures from the manuscript
 
-Download fetch from GitHub first.
-Then run:
+In order, run:
 ```
-bash grabdata.sh
+bash getKB.sh
 ```
-
 ```
-python KB_test_pipeline.py
+bash getbenchmark.sh
 ```
-
 ```
-bash accuracy.sh
+bash runtest.sh
 ```
 
-Your figures are in the folder `figures`.
+The figures are in the folder `figures`.
+
+## Example of Use Case #2, where you have filtered candidate variants (also in the manuscript)
+
+After changing the code `example/ANKRD11example.sh` so the ANNOVAR db is built where you would like it, simply run:
+
+```
+bash example/ANKRD11example.sh
+```
+
+Going through the code in `example/ANKRD11example.sh`, first one downloads a list of candidate variants from the article referenced in the manuscript where the patient has KBG syndrome.
+
+Then, we annotate with ANNOVAR to retrieve gene annotations for these variants, functional consequence information (exonic, intronic, nonsynonymous), amino acid change information, and population frequency.
+
+We next filter out common variants (>1% in gnomAD 2.1.1) and use Phen2Gene to rank the candidate genes based on HPO terms.
+
+Combining this information with the variants, we can re-rank Phen2Gene's candidate list as in the script `filterbyannovar.py` and discover that the variant for the causal gene _ANKRD11_ is now ranked number 1 after being ranked number 2 by HPO term.  The number 1 ranked gene by HPO, _VPS13B_, is filtered out because the only candidate variant (8-100133706-T-G) has an extremely high allele frequency in gnomAD(74%!).
