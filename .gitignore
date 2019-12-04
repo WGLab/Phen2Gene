@@ -5,6 +5,6 @@ lib/__pycache__
 testing_data/*
 qsublog/*
 rankings/*
-lib/Knowledgebase
-lib/skewness
-lib/weights
+lib/Knowledgebase/*
+lib/skewness/*
+lib/weights/*
