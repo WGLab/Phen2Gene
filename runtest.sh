@@ -1,7 +1,8 @@
 #!/usr/bin/sh
 
 
-echo "Running the testing data..... It takes 6 minutes......"
+echo "Running the testing data......"
+mkdir -p rankings
 python KB_test_pipeline.py -f -stat tesitngdata_stat > KB_test_pipeline.log &
 sleep 6m
 echo "Finished."
