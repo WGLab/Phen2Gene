@@ -1,20 +1,29 @@
 db_weight = "./lib/weights/"
 outdated_HP = "./lib/outdated_HP/"
+skewnessfile = './lib/skewness/'
+
+
 
 def assign(hp, model='ic', replaced_by = None):
     
     # Check HP id format should be 'HP_nnnnnnn'
     if(hp[2] == ":"):
         hp = hp.replace(":", "_",1)
-    
+
     try:
-        with open(db_weight + hp, "r") as fr:
-            data = fr.read().split("\n")
-            if(model == 'ic'):
-                return (float(data[1]), replaced_by)
-            if(model == 'w'):
-                return (float(data[2]), replaced_by)
-            return (1.0, replaced_by)
+       if(model == 'ic' or model == 'w'):
+            with open(db_weight + hp, "r") as fr:
+                data = fr.read().split("\n")
+                if(model == 'ic'):
+                    return (float(data[1]), replaced_by)
+                if(model == 'w'):
+                    return (float(data[2]), replaced_by)
+       elif(model == 'sk'):
+           with open(skewnessfile + hp, "r") as fr:
+                data = fr.read().rstrip('\n').split("\t")
+                return (float(data[0]), replaced_by)
+       else:
+           return (1.0, replaced_by)
     except FileNotFoundError:
         try:
             with open(outdated_HP + hp, "r") as fr:

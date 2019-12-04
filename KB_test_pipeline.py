@@ -4,9 +4,10 @@ import numpy as np
 import os, os.path
 import errno
 import argparse
-
+import time
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('-f', '--force', action='store_true')
+parser.add_argument('-stat', '--stat')
 args=parser.parse_args()
 
 
@@ -26,13 +27,13 @@ DGD_probe_gene = {}
 for line in open(probe_gene, 'r'):
     data = line.rstrip('\n').split('\t')
     if(data[0] == 'AJHG'):
-        AJHG_probe_gene[data[1]] = data[2]
+        AJHG_probe_gene[data[1]] = data[2].strip(' ')
     elif(data[0] == 'CSH'):
-        CSH_probe_gene[data[1]] = data[2]
+        CSH_probe_gene[data[1]] = data[2].strip(' ')
     elif(data[0] == 'Columbia_U'):
-        CU_probe_gene[data[1]] = data[2]
+        CU_probe_gene[data[1]] = data[2].strip(' ')
     elif(data[0] == 'DGD'):
-        DGD_probe_gene[data[1]] = data[2]
+        DGD_probe_gene[data[1]] = data[2].strip(' ')
 
 
 AJHG_total_num = 83
@@ -47,11 +48,26 @@ CU_standards  = [3.7, 11.1, 22.2, 22.2, 29.6, 37.0, 51.9]
 DGD_standards  = [7.1, 18.8, 18.8, 21.2, 30.6, 35.3, 44.7]
 TAF1_standards = [28.6, 71.4, 100.0, 100.0, 100.0, 100.0, 100.0]
 
-AJHG_old_phenolyzer = [0,0,3.6,7.2]
-CSH_old_phenolyzer = [20.8,23.6,23.6,25]
-CU_old_phenolyzer  = [11.1,11.1,22.2,29.6]
-DGD_old_phenolyzer  = [9.4,15.3,17.6,18.8]
-TAF1_old_phenolyzer = [0.0,0.0,0.0,0.0]
+AJHG_old_phenolyzer = [0,0,3.6,7.2,7.2,7.2,7.2,7.2]
+CSH_old_phenolyzer = [20.8,23.6,23.6,25,25,25,25]
+CU_old_phenolyzer  = [11.1, 11.1, 18.5, 29.6, 33.3, 37.0, 40.7]
+DGD_old_phenolyzer  =  [9.4, 15.3, 17.6, 18.8, 21.2, 22.4, 30.6]
+TAF1_old_phenolyzer = [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+
+'''
+# first one is top15
+AJHG_old_phenolyzer = [0,0,3.6,7.2,7.2,7.2,7.2,7.2]
+CSH_old_phenolyzer = [20.8,23.6,23.6,25,25,25,25]
+CU_old_phenolyzer  = [11.1, 11.1, 18.5, 29.6, 33.3, 37.0, 40.7]
+DGD_old_phenolyzer  =  [11.8, 15.3, 17.6, 18.8, 21.2, 22.4, 30.6]
+TAF1_old_phenolyzer = [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+'''
+
+AJHG_CSH_old_phenolyzer1 = [0,0,0,0,0,0,0]
+CU_old_phenolyzer1 = [0,0,0,0,0,0,0]
+DGD_old_phenolyzer1 = [0,0,0,0,0,0,0]
+TAF1_old_phenolyzer1 = [0,0,0,0,0,0,0]
+
 
 AJHG_tops = [0,0,0,0,0,0,0]
 CSH_tops = [0,0,0,0,0,0,0]
@@ -64,6 +80,10 @@ CSH_error_msg = {}
 CU_error_msg = {}
 DGD_error_msg = {}
 TAF1_error_msg = {}
+
+import sys
+probe_rank = open(args.stat,'w+')
+
 
 def run_data(data_set, tops, error_msg):
     
@@ -81,19 +101,31 @@ def run_data(data_set, tops, error_msg):
         data_set_probe_dict = DGD_probe_gene
     
     probe_gene_rank_dict = {}
-    
+    if(args.force):
+        for f in os.listdir(data_set):
+            error_msg[f] = ''
+            probe_gene = 'TAF1'
+            if(data_set != TAF1):
+                probe_gene = data_set_probe_dict[f]
+            output_name = 'out/' + f
+            cmd = 'python phen2gene.py -f {} -w sk -out {}'.format(data_set + f, output_name)
+            #print(cmd) 
+            #os.system('echo "{}" | qsub -cwd -V -e qsublog/{}.e -o qsublog/{}.o'.format(cmd, f,f))
+            os.system(cmd)
+        #print('now sleeping for 1 min')
+        #time.sleep(60)
+        #print('now awaken')
+
     for f in os.listdir(data_set):
         error_msg[f] = ''
         probe_gene = 'TAF1'
         if(data_set != TAF1):
             probe_gene = data_set_probe_dict[f]
         output_name = 'out/' + f
-        cmd = 'python phen2gene.py -f {} -w w -out {} -j'.format(data_set + f, output_name)
-        print(cmd)
         try:
-            if not os.path.isdir('out') or not os.listdir('out') or args.force:
-                os.system(cmd)
-                
+            #if not os.path.isdir('out') or not os.listdir('out') or args.force:
+            #    os.system(cmd)
+            print('open {}'.format(output_name + "/output_file.associated_gene_list"))    
             with open(output_name + "/output_file.associated_gene_list", "r") as fr1:
 
                 line = fr1.readline()
@@ -123,6 +155,10 @@ def run_data(data_set, tops, error_msg):
                 
                 if(not found):
                     not_found += 1
+                if(not found):
+                    probe_rank.write('{}\t{}\t{}\n'.format(f,probe_gene,'not found'))
+                else:
+                    probe_rank.write('{}\t{}\t{}\n'.format(f,probe_gene,str(rank)))
 
         except Exception as e:
             error_msg[f] += str(e)
@@ -209,13 +245,16 @@ def output_tsv(p2g, pheno, f_name):
     with open('rankings/'+f_name + '.tsv', 'w+') as fw:
         fw.write('\tPhen2Gene\tPhenolyzer\n')
         fw.write('Top 10\t{}\t{}\n'.format(str(p2g[0]), str(pheno[0]) ))
-        fw.write('Top 25\t{}\t{}\n'.format(str(p2g[1]), str(pheno[1]) ))
+        #fw.write('Top 25\t{}\t{}\n'.format(str(p2g[1]), str(pheno[1]) ))
         fw.write('Top 50\t{}\t{}\n'.format(str(p2g[2]), str(pheno[2]) ))
         fw.write('Top 100\t{}\t{}\n'.format(str(p2g[3]), str(pheno[3]) ))
+        #fw.write('Top 250\t{}\t{}\n'.format(str(p2g[4]), str(pheno[4]) ))
+        #fw.write('Top 500\t{}\t{}\n'.format(str(p2g[5]), str(pheno[5]) ))
+        fw.write('Top 1000\t{}\t{}\n'.format(str(p2g[6]), str(pheno[6]) ))
 
-if args.force:
-    rm_cmd = "rm -rf out"
-    os.system(rm_cmd)
+#if args.force:
+    #rm_cmd = "rm -rf out"
+    #os.system(rm_cmd)
 try:
     not_found_AJHG = run_data(AJHG, AJHG_tops, AJHG_error_msg)
     for i in range(len(AJHG_tops)):
@@ -243,49 +282,53 @@ print('\nTesting the new KnowledgeBase on AJHG data')
 print_error_msg(AJHG_error_msg)
 print(AJHG_tops)
 cmp(AJHG_tops, AJHG_standards)
-plot(AJHG_tops,AJHG_old_phenolyzer, 'AJHG')
+#plot(AJHG_tops,AJHG_old_phenolyzer, 'AJHG')
 output_tsv(AJHG_tops,AJHG_old_phenolyzer, 'AJHG')
 
 print('\nTesting the new KnowledgeBase on CSH data') 
 print_error_msg(CSH_error_msg)
 print(CSH_tops)
 cmp(CSH_tops, CSH_standards)
-plot(CSH_tops,CSH_old_phenolyzer, 'CSH')
+#plot(CSH_tops,CSH_old_phenolyzer, 'CSH')
 output_tsv(CSH_tops,CSH_old_phenolyzer, 'CSH')
 
 print('\nTesting the new KnowledgeBase on DGD data') 
 print_error_msg(DGD_error_msg)
 print(DGD_tops)
 cmp(DGD_tops, DGD_standards)
-plot(DGD_tops,DGD_old_phenolyzer, 'DGD')
+#plot(DGD_tops,DGD_old_phenolyzer, 'DGD')
 output_tsv(DGD_tops,DGD_old_phenolyzer, 'DGD')
 
 print('\nTesting the new KnowledgeBase on TAF1 data')
 print_error_msg(TAF1_error_msg)
 print(TAF1_tops)
 cmp(TAF1_tops, TAF1_standards)
-plot(TAF1_tops[0:4],TAF1_old_phenolyzer, 'TAF1')
-output_tsv(TAF1_tops[0:4],TAF1_old_phenolyzer, 'TAF1')
+#plot(TAF1_tops[0:4],TAF1_old_phenolyzer, 'TAF1')
+output_tsv(TAF1_tops,TAF1_old_phenolyzer, 'TAF1')
 
 print('\nTesting the new KnowledgeBase on Columbia U data')
 print_error_msg(CU_error_msg)
 print(CU_tops)
 cmp(CU_tops, CU_standards)
-plot(CU_tops,CU_old_phenolyzer, 'CU')
+#plot(CU_tops,CU_old_phenolyzer, 'CU')
 output_tsv(CU_tops,CU_old_phenolyzer, 'CU')
 
-print(str(not_found_AJHG))
-print(str(not_found_CSH))
-print(str(not_found_DGD))
-print(str(not_found_TAF1))
-print(str(not_found_CU))
+#print(str(not_found_AJHG))
+#print(str(not_found_CSH))
+#print(str(not_found_DGD))
+#print(str(not_found_TAF1))
+#print(str(not_found_CU))
 
-AJHG_CSH_top = CSH_tops[0:4]
-AJHG_CSH_old_phenolyzer = CSH_old_phenolyzer
+AJHG_CSH_top = CSH_tops
+#AJHG_CSH_old_phenolyzer = [9.7, 11.0, 12.9, 15.5, 20.6, 26.5, 29.0]
+AJHG_CSH_old_phenolyzer = [9.7, 11.0, 12.9, 15.5, 20.6, 26.5, 29.0]
 
 for i in range(len(AJHG_CSH_top)):
-    AJHG_CSH_top[i] += AJHG_tops[i]
-    AJHG_CSH_old_phenolyzer[i] += AJHG_old_phenolyzer[i]
+    AJHG_CSH_top[i]  = round((CSH_tops[i]*CSH_total_num  +  AJHG_tops[i] * AJHG_total_num) / (CSH_total_num + AJHG_total_num), 1)
+    #AJHG_CSH_old_phenolyzer[i] = round( (AJHG_old_phenolyzer[i] * AJHG_total_num + CSH_old_phenolyzer[i] * CSH_total_num) / (CSH_total_num + AJHG_total_num), 1)
 
-plot(AJHG_CSH_top, AJHG_CSH_old_phenolyzer, 'AJHG_CSH')
+#plot(AJHG_CSH_top, AJHG_CSH_old_phenolyzer, 'AJHG_CSH')
 output_tsv(AJHG_CSH_top,AJHG_CSH_old_phenolyzer, 'AJHG_CSH')
+
+probe_rank.close()
+
