@@ -23,6 +23,7 @@ git clone https://github.com/WGLab/Phen2Gene.git
 cd Phen2Gene
 conda env create -f environment.yml
 conda activate phen2gene
+bash getKB.sh
 ```
 
 ## General Use Case
