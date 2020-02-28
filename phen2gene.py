@@ -46,6 +46,8 @@ parser.add_argument('-g', '--gene_weight', action='store_true', help='Apply the 
 
 parser.add_argument('-c', '--cutoff', action='store_true', help='cut off weights of some selected gene.')
 
+parser.add_argument('-d', '--genelist', help='1 column text file of potential disease genes (OPTIONAL, NOT REQUIRED)')
+
 
 args = parser.parse_args()
 
@@ -219,17 +221,26 @@ if(args.jax_only):
     print('select those genes only in jax')
     gene_dict = only_jax(gene_dict, hp_weight_dict.keys())
 
-    
+### if user inputs a candidate gene list, remove all genes but candidate genes
+if(args.genelist):
+    with open(args.genelist) as f:
+        genelist = [line.strip() for line in f]
+    for key in genelist:
+        if key not in gene_dict.keys():
+            gene_dict[key] = [key, 0, 'Not in KB', 0, "NA"]
+    unwanted = set(gene_dict.keys()) - set(genelist)
+    for unwanted_key in unwanted:
+        del gene_dict[unwanted_key]
+
 ### output the final prioritized associated gene list
 # Prioritize all found genes
 gene_dict = gene_prioritization(gene_dict)
 
 # output the sorted gene list
 if(json_formatting):
-    write_list_json(output_path, output_file_name, weight_model.lower() ,gene_dict)
+    write_list_json(output_path, output_file_name, weight_model.lower(), gene_dict)
 else:
-    
-    write_list_tsv(output_path, output_file_name, weight_model.lower() ,gene_dict)
+    write_list_tsv(output_path, output_file_name, weight_model.lower(), gene_dict)
                     
 print("Finished.")
 print("Output path: " + output_path  + "\n")  
@@ -254,8 +265,3 @@ else:
         score_merge.simple_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
 '''
-
-
-   
-
-
