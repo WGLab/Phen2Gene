@@ -1,6 +1,6 @@
-KB = "./lib/Knowledgebase/"
 
-def calc(hp_weight_list, verbosity, gene_weight, cutoff):
+def calc(KBpath, hp_weight_list, verbosity, gene_weight, cutoff):
+    KB = '{}/{}'.format(KBpath, 'Knowledgebase')
     gene_dict = {}
     hp_num = len(hp_weight_list)
 
@@ -13,7 +13,7 @@ def calc(hp_weight_list, verbosity, gene_weight, cutoff):
     for hp in hp_weight_list.keys():
         
         try:
-            with open(KB + hp + ".candidate_gene_list", "r") as HP_file:
+            with open(r"{}/{}.candidate_gene_list".format(KB, hp)) as HP_file:
                 line = HP_file.readline()
                 line = HP_file.readline()
                 while(line ):
@@ -76,12 +76,13 @@ def calc(hp_weight_list, verbosity, gene_weight, cutoff):
 
 
 
-def calc_simple(hp_weight_list, verbosity):
+def calc_simple(KBpath, hp_weight_list, verbosity):
+    KB = '{}/{}'.format(KBpath, 'Knowledgebase')
     gene_dict = {}
     for hp in hp_weight_list.keys():
         
         try:
-            with open(KB + hp + ".candidate_gene_list", "r") as HP_file:
+            with open(r"{}/{}.candidate_gene_list".format(KB,hp)) as HP_file:
                 line = HP_file.readline()
                 line = HP_file.readline()
                 while(line ):

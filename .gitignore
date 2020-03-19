@@ -10,3 +10,4 @@ lib/skewness/*
 lib/weights/*
 figures/
 tesitngdata_stat
+lib/h2gpath.config

@@ -1,11 +1,9 @@
-db_weight = "./lib/weights/"
 outdated_HP = "./lib/outdated_HP/"
-skewnessfile = './lib/skewness/'
 
-
-
-def assign(hp, model='ic', replaced_by = None):
+def assign(KBpath, hp, model='ic', replaced_by = None):
     
+    db_weight = '{}/{}'.format(KBpath, 'weights/')
+    skewnessfiles = '{}/{}'.format(KBpath, 'skewness/')
     # Check HP id format should be 'HP_nnnnnnn'
     if(hp[2] == ":"):
         hp = hp.replace(":", "_",1)
@@ -19,7 +17,7 @@ def assign(hp, model='ic', replaced_by = None):
                 if(model == 'w'):
                     return (float(data[2]), replaced_by)
        elif(model == 'sk'):
-           with open(skewnessfile + hp, "r") as fr:
+           with open(skewnessfiles + hp, "r") as fr:
                 data = fr.read().rstrip('\n').split("\t")
                 return (float(data[0]), replaced_by)
        else:
