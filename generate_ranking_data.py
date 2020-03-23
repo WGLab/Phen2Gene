@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os, argparse
 import statistics as stat
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 outdated_HP = "./lib/outdated_HP/"
 
 def assign(KBpath, hp, model='ic', replaced_by = None):

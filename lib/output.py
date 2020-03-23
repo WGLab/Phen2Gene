@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import numpy as np 
 
 def write_list(output_path,case_name,weight_model,gene_dict):

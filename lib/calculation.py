@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 def calc(KBpath, hp_weight_list, verbosity, gene_weight, cutoff):
     KB = '{}/{}'.format(KBpath, 'Knowledgebase')
