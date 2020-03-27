@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-outdated_HP = "./lib/outdated_HP/"
+outdated_HP = "lib/outdated_HP/"
 
 def assign(KBpath, hp, model='ic', replaced_by = None):
     
@@ -33,7 +33,7 @@ def assign(KBpath, hp, model='ic', replaced_by = None):
                 # this outdated HP is replaced by another HP, so assign it the weight of the new HP.
                 if(len(data[1]) >0):
                     print(hp.replace("_",":") +" ("+ data[0] +")" +" is obsolete, and replaced by "+ data[1].replace("_",":") +".\nPhen2Gene gave the weight of "+ data[1].replace("_",":") + " to " + hp.replace("_",":")+" .")
-                    return assign(data[1], model, data[1])
+                    return assign(KBpath,data[1], model, data[1])
                 
                 # this HPO term is outdated. It have references to other currently valid HPO terms
                 if(len(data[2]) >0):

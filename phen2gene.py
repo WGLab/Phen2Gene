@@ -14,7 +14,7 @@ from lib.calculation import calc, calc_simple
 KBpath = None
 
 try:
-    with open(r'./lib/h2gpath.config') as fr:
+    with open(r'lib/h2gpath.config') as fr:
         KBpath = fr.readline().rstrip('\n')
 except:
     pass
