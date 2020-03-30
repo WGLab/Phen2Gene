@@ -8,10 +8,10 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('-c', '--causalgene', help='The file that stores causal gene info.', default='./testing_data/probe_info')
 parser.add_argument('-f', '--force', action='store_true')
-parser.add_argument('-p', '--phen2gene',help = 'The directory where it stores Phen2Gene outputs.')
-parser.add_argument('-a', '--amelie', help='The directory where it stores Amelie outputs.')
-parser.add_argument('-g', '--gado', help='The directory where it stores GADO outputs.' )
-parser.add_argument('-ph', '--phenolyzer',help = 'The directory where it stores Phenolyzer(v0.2.0) outputs.')
+parser.add_argument('-p', '--phen2gene',help = 'The directory where it stores Phen2Gene outputs.', default='./testing_data/p2goutput')
+parser.add_argument('-a', '--amelie', help='The directory where it stores Amelie outputs.', default='./testing_data/amelieoutput/amelieoutputs')
+parser.add_argument('-g', '--gado', help='The directory where it stores GADO outputs.' , default='./testing_data/gadooutput')
+parser.add_argument('-ph', '--phenolyzer',help = 'The directory where it stores Phenolyzer(v0.2.0) outputs.', default='./testing_data/phenolyzeroutput/phenoold')
 parser.add_argument('-r', '--randomgene', help='The directory where it stores randomly selected genes for testing', default='./testing_data/random_gene_sets')
 parser.add_argument('-o', '--out', help='The directory where it stores the rankings info for Phen2Gene vs. Phenolyzer vs. Amelie vs. GADO', default='./rankings')
 
@@ -122,7 +122,7 @@ for case in causaldict.keys():
         continue
     header = True
     rawgene = []
-    for line in open(r'./out/{}/output_file.associated_gene_list'.format(case)):
+    for line in open(r'{}/{}/output_file.associated_gene_list'.format(args.phen2gene,case)):
         if(header):
             header = False
             continue
@@ -151,13 +151,13 @@ for case in causaldict.keys():
 print('Analysing GADO outputs')
 
 for case in causaldict.keys():
-    if( not os.path.exists('{}/{}.txt'.format(args.gado, case))):
+    if( not os.path.exists('{}/result/{}.txt'.format(args.gado, case))):
         print('Notice: GADO output file {} not exists'.format(case))
         continue
 
     initial_gene = []
     header = True
-    for line in open(r'{}/{}.txt'.format(args.gado, case)):
+    for line in open(r'{}/result/{}.txt'.format(args.gado, case)):
         if(header):
             header = False
             continue
