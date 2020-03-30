@@ -68,7 +68,6 @@ sns.set_style('white')
 matplotlib.rcParams['pdf.fonttype'] = 42
 #matplotlib.rcParams['font.family'] = 'sans-serif'
 #matplotlib.rcParams['font.sans-serif'] = ['Arial']
-<<<<<<< HEAD
 matplotlib.rcParams['font.size'] = 11
 
 fig, ax = plt.subplots(1)
@@ -85,9 +84,9 @@ else:
     autolabel(rects, ax, xoffset=-0.2)
 
 
-
-
 alefts=np.arange(0+width,distance*len(ranks)+width, distance)
+
+
 
 
 rects=ax.bar(x=alefts,height=phenolyzer,width=width,tick_label=ranks,color=(56/255.0,138/255.0,172/255.0),edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[1])
@@ -114,7 +113,6 @@ else:
 
 
 
-
 alefts=np.arange(0+3*width,distance*len(ranks)+3*width, distance)
 rects=ax.bar(x=alefts,height=gado,width=width,color=(135/255.0,206/255.0,250/255.0),edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[3])
 ax.set_xticks(alefts- width*1.5)
@@ -123,9 +121,6 @@ autolabel(rects, ax, xoffset=0.1)
 
 
 fig.legend(loc='upper left', ncol=1,bbox_to_anchor=(0, 1.1))
-#if max(phenolyzer) > 10:
-    #for i,o in enumerate(phenolyzer):
-     #   ax.text(alefts[i]-width*.25, 0.14 if o<1 else 5, '%.3f' % phenolyzer[i] if o<1 else '%.1f' % phenolyzer[i], color='k', size=8) #2 for log2
 
 def mkdir_p(path):
     import os
