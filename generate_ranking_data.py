@@ -117,7 +117,7 @@ for i in range(1,11):
 print('Analysing Phen2Gene outputs')
 
 for case in causaldict.keys():
-    if( not os.path.exists('{}/{}/output_file.associated_gene_list'.format(args.phen2gene,case))):
+    if(not  os.path.exists('{}/{}/output_file.associated_gene_list'.format(args.phen2gene,case))):
         print('Notice: Phen2Gene output file {} not exists'.format(case))
         continue
     header = True
