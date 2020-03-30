@@ -26,7 +26,6 @@ rm amelie.zip
 printf "The testing data for Amelie is downloaded.\n"
 
 
-
 printf "Running Phen2Gene for the testing data and analyze the result of Phen2Gene, Phenolyzer(v 0.2.0), GADO, and Amelie......\n"
 
 python generate_ranking_data.py -pv  > generate_ranking_data.log && echo "Finished." && echo "tsv files are in rankings/\n" && echo "Generating figures.......\n" && sh accuracy.sh
