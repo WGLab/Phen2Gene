@@ -1,32 +1,8 @@
+#!/usr/bin/env python3
+
 import networkx as nx 
 
-jax_db = 'lib/JAX_DB/'
 hpo = '../testing_data/hpo.obo'
-
-def only_jax(gene_dict, hp_list):
-    jax_gene = set()
-    for hp in hp_list:
-        try:
-            for gene in open(jax_db + hp,'r'):
-                jax_gene.add(gene.rstrip('\n'))
-        except:
-            pass
-    jax_gene = list(jax_gene)
-    print(str(len(jax_gene)))
-    
-    new_gene_dict = {}
-    for gene in gene_dict.keys():
-        
-        #'''only takes those gene in JAX database and filter out 'predicted' genes'''
-        if(gene_dict[gene][0] in jax_gene and gene_dict[gene][2] == 'SeedGene'):
-        #'''only takes those gene in JAX database'''
-        #if(gene_dict[gene][0] in jax_gene):
-            new_gene_dict[gene] = gene_dict[gene]
-            
-            
-    return new_gene_dict
-
-
 
 
 def clean_term_data(HPid,xref,is_a,name,definition,is_obsolete,replaced_by,consider,alt_id,synonym,created_by, creation_date,comment, subset,property_value):
@@ -136,10 +112,5 @@ def build_network():
 
     return hpo_dg
 
-'''
-def skip_parent(hp_list, hpo_dg):
-    parents = []
-    
-    for i in range(len(hp_list) ):
-        for j in range(i, len(hp_list) ):
-'''    
+
+

@@ -1,11 +1,11 @@
-db_weight = "./lib/weights/"
-outdated_HP = "./lib/outdated_HP/"
-skewnessfile = './lib/skewness/'
+#!/usr/bin/env python3
 
+outdated_HP = "lib/outdated_HP/"
 
-
-def assign(hp, model='ic', replaced_by = None):
+def assign(KBpath, hp, model='ic', replaced_by = None):
     
+    db_weight = '{}/{}'.format(KBpath, 'weights/')
+    skewnessfiles = '{}/{}'.format(KBpath, 'skewness/')
     # Check HP id format should be 'HP_nnnnnnn'
     if(hp[2] == ":"):
         hp = hp.replace(":", "_",1)
@@ -19,7 +19,7 @@ def assign(hp, model='ic', replaced_by = None):
                 if(model == 'w'):
                     return (float(data[2]), replaced_by)
        elif(model == 'sk'):
-           with open(skewnessfile + hp, "r") as fr:
+           with open(skewnessfiles + hp, "r") as fr:
                 data = fr.read().rstrip('\n').split("\t")
                 return (float(data[0]), replaced_by)
        else:
@@ -33,7 +33,7 @@ def assign(hp, model='ic', replaced_by = None):
                 # this outdated HP is replaced by another HP, so assign it the weight of the new HP.
                 if(len(data[1]) >0):
                     print(hp.replace("_",":") +" ("+ data[0] +")" +" is obsolete, and replaced by "+ data[1].replace("_",":") +".\nPhen2Gene gave the weight of "+ data[1].replace("_",":") + " to " + hp.replace("_",":")+" .")
-                    return assign(data[1], model, data[1])
+                    return assign(KBpath,data[1], model, data[1])
                 
                 # this HPO term is outdated. It have references to other currently valid HPO terms
                 if(len(data[2]) >0):

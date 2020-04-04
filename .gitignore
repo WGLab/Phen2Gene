@@ -10,3 +10,7 @@ lib/skewness/*
 lib/weights/*
 figures/
 tesitngdata_stat
+lib/h2gpath.config
+.*.py.swp
+calcs/*png
+calcs/.nfs*

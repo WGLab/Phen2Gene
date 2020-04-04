@@ -28,7 +28,7 @@ git clone https://github.com/WGLab/Phen2Gene.git
 cd Phen2Gene
 conda env create -f environment.yml
 conda activate phen2gene
-bash getKB.sh
+bash setup.sh
 ```
 
 ## General Use Case
@@ -84,7 +84,7 @@ Please use the [Phen2Gene issues page](https://github.com/WGLab/Phen2Gene/issues
 
 In order, run:
 ```
-bash getKB.sh
+bash setup.sh
 ```
 ```
 bash getbenchmark.sh

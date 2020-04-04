@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from collections import OrderedDict
 
 def gene_prioritization(gene_dict):    

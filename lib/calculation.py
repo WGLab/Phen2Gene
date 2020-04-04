@@ -1,19 +1,20 @@
-KB = "./lib/Knowledgebase/"
+#!/usr/bin/env python3
 
-def calc(hp_weight_list, verbosity, gene_weight, cutoff):
+def calc(KBpath, hp_weight_list, verbosity, gene_weight, cutoff):
+    KB = '{}/{}'.format(KBpath, 'Knowledgebase')
     gene_dict = {}
     hp_num = len(hp_weight_list)
 
     hp_downweight_lst = []
     downweight = 0.5
-    #for line in open(r'./lib/hpgt350'):
+    #for line in open(r'lib/hpgt350'):
     #    hp_downweight_lst.append(line.rstrip('\n').replace(':','_'))
 
 
     for hp in hp_weight_list.keys():
         
         try:
-            with open(KB + hp + ".candidate_gene_list", "r") as HP_file:
+            with open(r"{}/{}.candidate_gene_list".format(KB, hp)) as HP_file:
                 line = HP_file.readline()
                 line = HP_file.readline()
                 while(line ):
@@ -52,12 +53,12 @@ def calc(hp_weight_list, verbosity, gene_weight, cutoff):
             top100lst = []
 
             #lt10gt0 = []
-            #for line in open(r'./lib/genetop10'):
-            for line in open(r'./lib/gt311top100'):
+            #for line in open(r'lib/genetop10'):
+            for line in open(r'lib/gt311top100'):
  
                 top100lst.append(line.rstrip('\n'))
 
-            #for line in open(r'./lib/lt10gt0'):
+            #for line in open(r'lib/lt10gt0'):
             #    lt10gt0.append(line.rstrip('\n'))
 
             for gene_symbol in gene_dict.keys():
@@ -68,7 +69,7 @@ def calc(hp_weight_list, verbosity, gene_weight, cutoff):
     if(gene_weight):
         for gene_symbol in gene_dict.keys():
             weight = 0
-            with open('./lib/geneweight/{}'.format(gene_dict[gene_symbol][0]), 'r') as fr:
+            with open('lib/geneweight/{}'.format(gene_dict[gene_symbol][0]), 'r') as fr:
                 weight = float(fr.read().rstrip('\n'))
 
             gene_dict[gene_symbol][1] *= weight
@@ -76,12 +77,13 @@ def calc(hp_weight_list, verbosity, gene_weight, cutoff):
 
 
 
-def calc_simple(hp_weight_list, verbosity):
+def calc_simple(KBpath, hp_weight_list, verbosity):
+    KB = '{}/{}'.format(KBpath, 'Knowledgebase')
     gene_dict = {}
     for hp in hp_weight_list.keys():
         
         try:
-            with open(KB + hp + ".candidate_gene_list", "r") as HP_file:
+            with open(r"{}/{}.candidate_gene_list".format(KB,hp)) as HP_file:
                 line = HP_file.readline()
                 line = HP_file.readline()
                 while(line ):

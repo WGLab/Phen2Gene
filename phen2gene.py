@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -9,9 +9,19 @@ from lib.output import write_list as write_list_tsv
 from lib.json_format import write_list as write_list_json
 from lib.weight_assignment import assign
 from lib.calculation import calc, calc_simple
-from lib.filter import only_jax
 
-knowledgebase = "./lib/Knowledgebase/"
+# path of HPO2Gene KnowledgeBase
+KBpath = None
+
+try:
+    with open(r'lib/h2gpath.config') as fr:
+        KBpath = fr.readline().rstrip('\n')
+except:
+    pass
+
+if(KBpath is None or not os.path.exists(KBpath)):
+    sys.exit('It is not found for the path of HPO2Gene KnowledgeBase. Or you have not installed HPO2Gene KnowledgeBase.\nRun \'sh getKB.sh\' to install HPO2Gene KnowledgeBase.')
+
 
 HP_file_suffix=".candidate_gene_list"
 
@@ -39,8 +49,6 @@ parser.add_argument('-out', '--output',  help='Specify the path to store output 
 parser.add_argument('-n', '--name', metavar='output.file.name', help='Name the output file.')
 
 parser.add_argument('-json', '--json', action='store_true', help='Output the file in json format.')
-
-parser.add_argument('-j', '--jax_only', action='store_true', help='Select those gene only in JAX HPO database.')
 
 parser.add_argument('-g', '--gene_weight', action='store_true', help='Apply the weights for genes.')
 
@@ -79,8 +87,8 @@ if(not output_path.endswith("/")):
 if(user_defineds != None):
     weight_model = 'd'
 else:
-    if( weight_model == None or (weight_model.lower() != 'u' and weight_model.lower() != 's' and weight_model.lower() != 'ic' and weight_model.lower() != 'sk') ):
-        weight_model = 'w'
+    if( weight_model == None or (weight_model.lower() != 'u' and weight_model.lower() != 's' and weight_model.lower() != 'ic' and weight_model.lower() != 'w') ):
+        weight_model = 'sk'
 
 # Print info of weighting model on terminal, if verbosity
 if(args.verbosity):
@@ -188,7 +196,7 @@ if(weight_model == 'd'):
 # HPO weights are determined by weighting models
 else:
     for hp in HPO_id:
-        (weight, replaced_by) = assign(hp,weight_model)
+        (weight, replaced_by) = assign(KBpath, hp,weight_model)
         if(weight >0):
             if(replaced_by != None):
                 hp_weight_dict[replaced_by] = weight
@@ -210,16 +218,12 @@ if(args.weight_only):
     
 # Create a dict to store associated gene data
 if(weight_model.lower() == 's'):
-    gene_dict = calc_simple(hp_weight_dict, args.verbosity)
+    gene_dict = calc_simple(KBpath, hp_weight_dict, args.verbosity)
 else:
-    gene_dict = calc(hp_weight_dict, args.verbosity, gene_weight, cutoff)
+    gene_dict = calc(KBpath, hp_weight_dict, args.verbosity, gene_weight, cutoff)
     
 
     
-### filter out those genes not in JAX DB
-if(args.jax_only):
-    print('select those genes only in jax')
-    gene_dict = only_jax(gene_dict, hp_weight_dict.keys())
 
 ### if user inputs a candidate gene list, remove all genes but candidate genes
 if(args.genelist):
@@ -245,23 +249,6 @@ else:
 print("Finished.")
 print("Output path: " + output_path  + "\n")  
 
-'''
-# Read gene data in each HPO ID(s) in Knowledgebase
-if(method_input == 'w'):
-    for HP_term in HPO_id:
-        if(args.verbosity == True):
-            print("\nReading " + HP_term + HP_file_suffix + " from HPO2Gene Knowledgebase...")
-        score_merge.extract_HP_data_weighted_HPO(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
-elif(method_input == 'u'):
-    for HP_term in HPO_id:
-        if(args.verbosity == True):
-            print("\nReading " + HP_term + HP_file_suffix + " from HPO2Gene Knowledgebase...")
-        score_merge.extract_HP_data_unweighted_HPO(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
-else:
-    for HP_term in HPO_id:
-        if(args.verbosity == True):
-            print("\nReading " + HP_term + HP_file_suffix + " HPO2Gene from Knowledgebase...")
-        score_merge.simple_extract_HP_data(knowledgebase + HP_term + HP_file_suffix, gene_dict, args.verbosity)
 
-'''
+
