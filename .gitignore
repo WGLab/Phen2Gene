@@ -14,3 +14,4 @@ lib/h2gpath.config
 .*.py.swp
 calcs/*png
 calcs/.nfs*
+~/
