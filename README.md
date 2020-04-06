@@ -84,10 +84,7 @@ Please use the [Phen2Gene issues page](https://github.com/WGLab/Phen2Gene/issues
 
 In order, run:
 ```
-bash setup.sh
-```
-```
-bash getbenchmark.sh
+bash setup.sh     # You can skip it if you ran it in the installation.
 ```
 ```
 bash runtest.sh

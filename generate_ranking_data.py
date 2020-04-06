@@ -14,6 +14,7 @@ parser.add_argument('-g', '--gado', help='The directory where it stores GADO out
 parser.add_argument('-ph', '--phenolyzer',help = 'The directory where it stores Phenolyzer(v0.2.0) outputs.', default='./testing_data/phenolyzeroutput/phenoold')
 parser.add_argument('-r', '--randomgene', help='The directory where it stores randomly selected genes for testing', default='./testing_data/random_gene_sets')
 parser.add_argument('-o', '--out', help='The directory where it stores the rankings info for Phen2Gene vs. Phenolyzer vs. Amelie vs. GADO', default='./rankings')
+parser.add_argument('-pv', '--pvalues', help='Calculate p-values of Phen2Gene vs Phenolyzer(v0.2.0), Phen2Gene vs GADO, Phen2Gene vs Amelie', action='store_true')
 
 args = parser.parse_args()
 print(args)
@@ -299,5 +300,71 @@ tsvoutput('{}/AJHG_CSH.tsv'.format(args.out), top10, top50, top100, top250, 0, s
 tsvoutput('{}/TAF1.tsv'.format(args.out), top10, top50, top100, top250, 1, setnum['TAF1'])
 tsvoutput('{}/DGD.tsv'.format(args.out), top10, top50, top100, top250, 2, setnum['DGD'])
 tsvoutput( '{}/CU.tsv'.format(args.out), top10, top50, top100, top250, 3, setnum['Columbia'])
+
+def printstat(setname, casenum, p2gpos):
+    fw  = open('testing_data/signtest_pvalues{}.tsv'.format(setname), 'w+')
+    fw.write('{}\t{}\t{}\n'.format(setname, '+', '-' ))
+
+    fw.write('Phen2Gene vs Phenolyzer\t{}\t{}\n'.format(str(p2gpos[setname][2]) , str(casenum[setname][2] - p2gpos[setname][2])) )
+    fw.write('Phen2Gene vs Amelie\t{}\t{}\n'.format(str(p2gpos[setname][0]) , str(casenum[setname][0] - p2gpos[setname][0])) )
+    fw.write('Phen2Gene vs GADO\t{}\t{}\n'.format(str(p2gpos[setname][1]) , str(casenum[setname][1] - p2gpos[setname][1])) )
+    '''
+    for i in casenum[setname]:
+        print(str(i) + '\t')
+
+
+    for i in p2gpos[setname]:
+        print(str(i) + '\t')
+    '''
+
+    fw.close()
+
+if(args.pvalues):
+    casenum = {'AJHG_CSH':[0,0,0], 'DGD':[0,0,0], 'TAF1':[0,0,0], 'Columbia':[0,0,0]}
+    p2gpos = {'AJHG_CSH':[0,0,0], 'DGD':[0,0,0], 'TAF1':[0,0,0], 'Columbia':[0,0,0]}
+    for case in mediandict.keys():
+        if('case' in case):
+            if(mediandict[case][1] < mediandict[case][0]): p2gpos['TAF1'][0] += 1
+            if(mediandict[case][1] != mediandict[case][0]): casenum['TAF1'][0] +=1
+
+            if(mediandict[case][1] < mediandict[case][2]): p2gpos['TAF1'][1] += 1
+            if(mediandict[case][1] != mediandict[case][2]): casenum['TAF1'][1] +=1
+
+            if(mediandict[case][1] < mediandict[case][3]): p2gpos['TAF1'][2] += 1
+            if(mediandict[case][1] != mediandict[case][3]): casenum['TAF1'][2] +=1
+
+        elif('sample' in case):
+            if(mediandict[case][1] < mediandict[case][0]): p2gpos['DGD'][0] += 1
+            if(mediandict[case][1] != mediandict[case][0]): casenum['DGD'][0] +=1
+
+            if(mediandict[case][1] < mediandict[case][2]): p2gpos['DGD'][1] += 1
+            if(mediandict[case][1] != mediandict[case][2]): casenum['DGD'][1] +=1
+
+            if(mediandict[case][1] < mediandict[case][3]): p2gpos['DGD'][2] += 1
+            if(mediandict[case][1] != mediandict[case][3]): casenum['DGD'][2] +=1
+
+        elif('Colum' in case):
+            if(mediandict[case][1] < mediandict[case][0]): p2gpos['Columbia'][0] += 1
+            if(mediandict[case][1] != mediandict[case][0]): casenum['Columbia'][0] +=1
+
+            if(mediandict[case][1] < mediandict[case][2]): p2gpos['Columbia'][1] += 1
+            if(mediandict[case][1] != mediandict[case][2]): casenum['Columbia'][1] +=1
+
+            if(mediandict[case][1] < mediandict[case][3]): p2gpos['Columbia'][2] += 1
+            if(mediandict[case][1] != mediandict[case][3]): casenum['Columbia'][2] +=1
+
+        else:
+
+            if(mediandict[case][1] < mediandict[case][0]): p2gpos['AJHG_CSH'][0] += 1
+            if(mediandict[case][1] != mediandict[case][0]): casenum['AJHG_CSH'][0] +=1
+
+            if(mediandict[case][1] < mediandict[case][2]): p2gpos['AJHG_CSH'][1] += 1
+            if(mediandict[case][1] != mediandict[case][2]): casenum['AJHG_CSH'][1] +=1
+
+            if(mediandict[case][1] < mediandict[case][3]): p2gpos['AJHG_CSH'][2] += 1
+            if(mediandict[case][1] != mediandict[case][3]): casenum['AJHG_CSH'][2] +=1
+
+    for sets in p2gpos.keys():
+        printstat(sets, casenum, p2gpos)
 
 
