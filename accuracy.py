@@ -68,6 +68,7 @@ sns.set_style('white')
 matplotlib.rcParams['pdf.fonttype'] = 42
 #matplotlib.rcParams['font.family'] = 'sans-serif'
 #matplotlib.rcParams['font.sans-serif'] = ['Arial']
+<<<<<<< HEAD
 matplotlib.rcParams['font.size'] = 11
 
 fig, ax = plt.subplots(1)
@@ -85,15 +86,10 @@ else:
 
 
 
-# if max(phengene) > 10 or max(phenolyzer) > 10:
-    # ax.set_yscale("log",basey=10,nonposy="clip")
-    # ax.axhline(y=1, color='k')
-# else:
-    # ax.axhline(y=0, color='k')
-#for i,o in enumerate(phengene):
-#    ax.text(lefts[i]-width*.25, 0.14 if o<1 else 5, '%.3f' % phengene[i] if o<1 else '%.1f' % phengene[i], color='k', size=8)
 
 alefts=np.arange(0+width,distance*len(ranks)+width, distance)
+
+
 rects=ax.bar(x=alefts,height=phenolyzer,width=width,tick_label=ranks,color=(56/255.0,138/255.0,172/255.0),edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[1])
 ax.set_xticks(alefts-width*.5)
 
