@@ -19,9 +19,9 @@ try:
 except:
     pass
 
+
 if(KBpath is None or not os.path.exists(KBpath)):
     sys.exit('It is not found for the path of HPO2Gene KnowledgeBase. Or you have not installed HPO2Gene KnowledgeBase.\nRun \'sh getKB.sh\' to install HPO2Gene KnowledgeBase.')
-
 
 HP_file_suffix=".candidate_gene_list"
 
