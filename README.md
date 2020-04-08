@@ -90,6 +90,12 @@ bash setup.sh     # You can skip it if you ran it in the installation.
 bash runtest.sh
 ```
 
+If you only want the benchmark data and nothing else:
+
+```
+bash getbenchmark.sh /directory/to/download/to
+```
+
 The figures are in the folder `figures`.
 
 ## Example of Use Case #2, where you have filtered candidate variants (also in the manuscript)

@@ -1,11 +1,11 @@
 #!/usr/bin/sh
 
-###### Downlaod benchmark data
+###### Download benchmark data
 printf "Running the testing data......\n"
 mkdir -p rankings
 
 
-##### Downlaod testing data
+##### Download testing data
 printf "Downloading testing data....\n"
 wget -q https://github.com/WGLab/Phen2Gene/releases/download/1.1.0/testing_data.zip
 unzip -q testing_data.zip -d ./ 
@@ -13,7 +13,7 @@ rm testing_data.zip
 printf "Testing data downloaded...\n"
 
 
-printf "Dowloading the testing data for Phenolyzer(v 0.2.0), GADO, and Amelie.......\n"
+printf "Downloading the testing data for Phenolyzer(v 0.2.0), GADO, and Amelie.......\n"
 
 
 wget -q https://github.com/WGLab/Phen2Gene/releases/download/1.1.0/p2goutput.zip -O p2goutput.zip && unzip -q p2goutput.zip -d testing_data
