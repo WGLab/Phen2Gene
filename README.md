@@ -9,7 +9,7 @@ Please cite:
 
 ## Prerequisites
 
-If you do not wish to use Anaconda, simply install the packages in the file `environment.yml` using `pip`.
+If you do not wish to use Anaconda, simply install the packages in the file `environment.yml` using `pip`.  If you use `conda`, some packages may not properly install without updating `conda` using `conda update conda` first.
 
 ## Installation
 First, install Miniconda, a minimal installation of Anaconda, which is much smaller and has a faster installation.
