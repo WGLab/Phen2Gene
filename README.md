@@ -5,7 +5,7 @@ Phen2Gene is a phenotype-driven gene prioritization tool, that takes HPO (Human 
 ## Citing Phen2Gene
 
 Please cite:
-[Zhao, M., Havrilla, J. M., Fang, L., Chen, Y., Peng, J., Liu, C., Wu C., Sarmady M., Botas P., Isla J., Lyon G., Weng C., Wang, K. (2019). Phen2Gene: Rapid Phenotype-Driven Gene Prioritization for Rare Diseases. bioRxiv, 870527. doi: 10.1101/870527](https://www.biorxiv.org/content/10.1101/870527v1)
+[Zhao, M., Havrilla, J. M., Fang, L., Chen, Y., Peng, J., Liu, C., Wu C., Sarmady M., Botas P., Isla J., Lyon G., Weng C., Wang, K. (2019). Phen2Gene: Rapid Phenotype-Driven Gene Prioritization for Rare Diseases.NAR Genomics and Bioinformatics, Volume 2, Issue 2, June 2020, lqaa032](https://doi.org/10.1093/nargab/lqaa032)
 
 ## Prerequisites
 
