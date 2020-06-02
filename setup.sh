@@ -10,17 +10,17 @@ echo "unzipping H2GKBs.zip........"
 
 if [[ -z "$h2gpath" ]]
 then
-    h2gpath='./lib'
+    h2gpath='lib'
 fi
 
-h2gpath=`echo $h2gpath | envsubst`
+export h2gpath
 
 mkdir -p $h2gpath
 echo "$h2gpath" > ./lib/h2gpath.config
 
 if [[ ! -z "$softpath" ]]
 then
-    softpath=`echo $softpath | envsubst`
+    export softpath
     mkdir -p $softpath
     cp -a phen2gene.py $softpath
     cp -ar lib $softpath

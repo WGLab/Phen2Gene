@@ -21,7 +21,7 @@ except:
 
 
 if(KBpath is None or not os.path.exists(KBpath)):
-    sys.exit('It is not found for the path of HPO2Gene KnowledgeBase. Or you have not installed HPO2Gene KnowledgeBase.\nRun \'sh getKB.sh\' to install HPO2Gene KnowledgeBase.')
+    sys.exit('The path of the HPO2Gene KnowledgeBase cannot be found, or you have not installed HPO2Gene KnowledgeBase.\nRun \'bash setup.sh\' to install HPO2Gene KnowledgeBase.')
 
 HP_file_suffix=".candidate_gene_list"
 
@@ -54,10 +54,15 @@ parser.add_argument('-g', '--gene_weight', action='store_true', help='Apply the 
 
 parser.add_argument('-c', '--cutoff', action='store_true', help='cut off weights of some selected gene.')
 
-parser.add_argument('-d', '--genelist', help='1 column text file of potential disease genes (OPTIONAL, NOT REQUIRED)')
+parser.add_argument('-l', '--genelist', help='1 column text file of potential disease genes (OPTIONAL, NOT REQUIRED)')
 
+parser.add_argument('-d', '--database', help='tells Phen2Gene where the H2GKB is stored (if custom install or on Windows, may be necessary)')
 
 args = parser.parse_args()
+
+if args.database:
+    KBpath = args.database
+    print (KBpath)
 
 files = args.file
 manuals = args.manual
