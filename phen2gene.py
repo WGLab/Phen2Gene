@@ -93,7 +93,7 @@ def results(KBpath, files=None, manuals=None, user_defineds=None, weight_model=N
     HPO_id = []
 
     # If no HPO ID(s) available, exit the scripts.
-    if files == None and manuals == None and user_defineds == None:
+    if cl and files == None and manuals == None and user_defineds == None:
         print("\n\nPlease input a file, or manually input HPO ID(s).\n\n", file=sys.stderr)
         parser.print_help()
         sys.exit("")
@@ -104,7 +104,6 @@ def results(KBpath, files=None, manuals=None, user_defineds=None, weight_model=N
     else:
         if( weight_model == None or (weight_model.lower() != 'u' and weight_model.lower() != 's' and weight_model.lower() != 'ic' and weight_model.lower() != 'w') ):
             weight_model = 'sk'
-  
 
     # only for command line
     if cl:
@@ -162,6 +161,11 @@ def results(KBpath, files=None, manuals=None, user_defineds=None, weight_model=N
             output_file_name = "output_file" 
 
 
+    # redirect stdout to new_stdout (get printed output as a variable) 
+    old_stdout = sys.stdout
+    new_stdout = io.StringIO()
+    sys.stdout = new_stdout
+
     # Collect manually input HPO ID
     if(manuals != None and weight_model != 'd'):
         for HP_item in manuals:
@@ -187,12 +191,6 @@ def results(KBpath, files=None, manuals=None, user_defineds=None, weight_model=N
                             HPO_id.append(HP.replace(":","_"))
             except FileNotFoundError:
                 print("\n"+ file_item + " not found!\n", file=sys.stderr)
-      
-
-    # redirect stdout to new_stdout (get printed output as a variable) 
-    old_stdout = sys.stdout
-    new_stdout = io.StringIO()
-    sys.stdout = new_stdout
 
     ## Create a dict to store weights of HPO terms
     hp_weight_dict = {}
@@ -268,17 +266,18 @@ def results(KBpath, files=None, manuals=None, user_defineds=None, weight_model=N
     # Prioritize all found genes
     gene_dict = gene_prioritization(gene_dict)
 
-    # output the sorted gene list
-    if(json_formatting):
-        write_list_json(output_path, output_file_name, weight_model.lower(), gene_dict)
-    else:
-        write_list_tsv(output_path, output_file_name, weight_model.lower(), gene_dict)
-    
-    if cl:                    
+    if cl:
+        # output the sorted gene list
+        if(json_formatting):
+            write_list_json(output_path, output_file_name, weight_model.lower(), gene_dict)
+        else:
+            write_list_tsv(output_path, output_file_name, weight_model.lower(), gene_dict)
+                    
         print("Finished.")
         print("Output path: " + output_path  + "\n")  
 
-    return gene_dict
+    else:
+        return gene_dict, std_output, weight_model
 
 
 if __name__ == "__main__":
