@@ -15,14 +15,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
+    - name: set up Conda environment
+      uses: conda-incubator/setup-miniconda@v2
       with:
-        python-version: 3.8
-    - name: Install dependencies
+        activate-environment: phen2gene
+        environment-file: environment.yml
+        python-version: 3.6
+        auto-activate-base: false
+    - name: Run setup.sh
       run: |
-        conda env create -f environment.yml
-        conda activate phen2gene
         bash setup.sh
     - name: Run examples
       run: |
