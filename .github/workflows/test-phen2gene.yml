@@ -27,5 +27,5 @@ jobs:
         bash setup.sh
     - name: Run examples
       run: |
-        python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist
+        python3 phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist
         
