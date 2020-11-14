@@ -1,0 +1,30 @@
+# This workflow will install Phen2Gene and its dependencies and run the examples in the README
+
+name: Test Phen2Gene
+
+on:
+  push:
+    branches: [ master, ci-tests ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        conda env create -f environment.yml
+        conda activate phen2gene
+        bash setup.sh
+    - name: Run examples
+      run: |
+        python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist
+        
