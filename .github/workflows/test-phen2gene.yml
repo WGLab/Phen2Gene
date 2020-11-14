@@ -22,10 +22,17 @@ jobs:
         environment-file: environment.yml
         python-version: 3.6
         auto-activate-base: false
+    - name: Get conda info
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
     - name: Run setup.sh
+      shell: bash -l {0}
       run: |
         bash setup.sh
     - name: Run examples
+      shell: bash -l {0}
       run: |
         python3 phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist
         
