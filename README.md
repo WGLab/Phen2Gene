@@ -1,4 +1,11 @@
 # Phen2Gene
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/WGLab/Phen2Gene/Test%20Phen2Gene)
+![Codecov](https://img.shields.io/codecov/c/github/WGLab/Phen2Gene)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/WGLab/Phen2Gene)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/WGLab/Phen2Gene)
+![GitHub top language](https://img.shields.io/github/languages/top/WGLab/Phen2Gene)
+![GitHub issues](https://img.shields.io/github/issues/WGLab/Phen2Gene)
+![GitHub](https://img.shields.io/github/license/WGLab/Phen2Gene)
 
 Phen2Gene is a phenotype-driven gene prioritization tool, that takes HPO (Human Phenotype Ontology) IDs as inputs, searches and prioritizes candidate causal disease genes.  It is distributed under [the MIT License by Wang Genomics Lab](https://wglab.mit-license.org/).  Additionally we have provided a [web server](https://phen2gene.wglab.org) and an associated RESTful API service for running Phen2Gene.  Finally, a mobile app for Phen2Gene and several other genetic diagnostic tools from our lab is being tested and will be available soon.
 
@@ -48,11 +55,11 @@ Alternatively you can use a space separated list of HPO IDs on the command line.
 
 1. Input HPO IDs via input file (typical use case)
 ```
-python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist
+python3 phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist
 ```
 2. Input HPO IDs via input file, and candidate gene list file (another common use case)
 ```
-python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist -l example/1000genetest.txt
+python3 phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist -l example/1000genetest.txt
 ```
 3. Use Skewness and Information Content
 
@@ -61,19 +68,19 @@ python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist -l ex
   * `-w u` is unweighted
 
 ```
-python phen2gene.py -f example/HPO_sample.txt -w sk -out out/prioritizedgenelist
+python3 phen2gene.py -f example/HPO_sample.txt -w sk -out out/prioritizedgenelist
 ```
 4. Run Phen2Gene with verbose messages
 ```
-python phen2gene.py -f example/HPO_sample.txt -v -out out/prioritizedgenelist
+python3 phen2gene.py -f example/HPO_sample.txt -v -out out/prioritizedgenelist
 ```
 5. Input HPO IDs manually, if desired
 ```
-python phen2gene.py -m HP:0000021 HP:0000027 HP:0030905 HP:0010628 -out out/prioritizedgenelist
+python3 phen2gene.py -m HP:0000021 HP:0000027 HP:0030905 HP:0010628 -out out/prioritizedgenelist
 ```
 6. Add H2GKB location manually, if desired
 ```
-python phen2gene.py -f example/HPO_sample.txt -d full_path_to_H2GKB.zip_extraction_folder -out out/prioritizedgenelist
+python3 phen2gene.py -f example/HPO_sample.txt -d full_path_to_H2GKB.zip_extraction_folder -out out/prioritizedgenelist
 ```
 
 ## RESTful API and Web Server

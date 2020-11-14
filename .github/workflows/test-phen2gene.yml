@@ -1,0 +1,38 @@
+# This workflow will install Phen2Gene and its dependencies and run the examples in the README
+
+name: Test Phen2Gene
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up Conda environment
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: phen2gene
+        environment-file: environment.yml
+        python-version: 3.6
+        auto-activate-base: false
+    - name: Run setup.sh
+      shell: bash -l {0}
+      run: |
+        bash setup.sh
+    - name: Run pytest
+      shell: bash -l {0}
+      run: |
+          conda install pytest pytest-cov
+          pytest --cov-report xml:coverage.xml --cov=./
+    - name: Upload code coverage report to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
+        
