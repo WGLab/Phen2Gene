@@ -27,7 +27,7 @@ def test_input_file_example():
     """make sure the input file example works
     compares the first 6 lines of the output to what is expected
     """
-    bash_command = "python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist"
+    bash_command = "python3 phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist"
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     expected = [
@@ -48,7 +48,7 @@ def test_input_file_w_candidate_gene_list_example():
     """make sure the input file with candidate gene list example works
     compares the first 6 lines of the output to what is expected
     """
-    bash_command = "python phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist2 -l example/1000genetest.txt"
+    bash_command = "python3 phen2gene.py -f example/HPO_sample.txt -out out/prioritizedgenelist2 -l example/1000genetest.txt"
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     expected = [
@@ -69,7 +69,7 @@ def test_manual_hpo_example():
     """make sure the manual HPO example works
     compares the first 6 lines of the output to what is expected
     """
-    bash_command = "python phen2gene.py -m HP:0000021 HP:0000027 HP:0030905 HP:0010628 -out out/prioritizedgenelistmanual"
+    bash_command = "python3 phen2gene.py -m HP:0000021 HP:0000027 HP:0030905 HP:0010628 -out out/prioritizedgenelistmanual"
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     expected = [
@@ -90,7 +90,7 @@ def test_weighting_example_sk():
     """make sure the -w sk weighting option works
     compares the first 6 lines of the output to what is expected
     """
-    bash_command = "python phen2gene.py -f example/HPO_sample.txt -w sk -out out/prioritizedgenelistsk"
+    bash_command = "python3 phen2gene.py -f example/HPO_sample.txt -w sk -out out/prioritizedgenelistsk"
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     expected = [
@@ -111,7 +111,7 @@ def test_weighting_example_ic():
     """make sure the -w ic weighting option works
     compares the first 6 lines of the output to what is expected
     """
-    bash_command = "python phen2gene.py -f example/HPO_sample.txt -w ic -out out/prioritizedgenelistic"
+    bash_command = "python3 phen2gene.py -f example/HPO_sample.txt -w ic -out out/prioritizedgenelistic"
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     expected = [
@@ -132,7 +132,7 @@ def test_weighting_example_w():
     """make sure the -w w weighting option works
     compares the first 6 lines of the output to what is expected
     """
-    bash_command = "python phen2gene.py -f example/HPO_sample.txt -w w -out out/prioritizedgenelistw"
+    bash_command = "python3 phen2gene.py -f example/HPO_sample.txt -w w -out out/prioritizedgenelistw"
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     expected = [
@@ -153,7 +153,7 @@ def test_weighting_example_u():
     """make sure the -w u weighting option works
     compares the first 6 lines of the output to what is expected
     """
-    bash_command = "python phen2gene.py -f example/HPO_sample.txt -w u -out out/prioritizedgenelistu"
+    bash_command = "python3 phen2gene.py -f example/HPO_sample.txt -w u -out out/prioritizedgenelistu"
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     expected = [

@@ -22,15 +22,14 @@ jobs:
         environment-file: environment.yml
         python-version: 3.6
         auto-activate-base: false
-    - name: Get conda info
-      shell: bash -l {0}
-      run: |
-        conda info
-        conda list
     - name: Run setup.sh
       shell: bash -l {0}
       run: |
         bash setup.sh
+    - name: Install pytest
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
     - name: Test with pytest
       run: |
         pytest
