@@ -1,4 +1,10 @@
 # Phen2Gene
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/WGLab/Phen2Gene/Test%20Phen2Gene)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/WGLab/Phen2Gene)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/WGLab/Phen2Gene)
+![GitHub top language](https://img.shields.io/github/languages/top/WGLab/Phen2Gene)
+![GitHub issues](https://img.shields.io/github/issues/WGLab/Phen2Gene)
+![GitHub](https://img.shields.io/github/license/WGLab/Phen2Gene)
 
 Phen2Gene is a phenotype-driven gene prioritization tool, that takes HPO (Human Phenotype Ontology) IDs as inputs, searches and prioritizes candidate causal disease genes.  It is distributed under [the MIT License by Wang Genomics Lab](https://wglab.mit-license.org/).  Additionally we have provided a [web server](https://phen2gene.wglab.org) and an associated RESTful API service for running Phen2Gene.  Finally, a mobile app for Phen2Gene and several other genetic diagnostic tools from our lab is being tested and will be available soon.
 
