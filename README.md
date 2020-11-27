@@ -1,5 +1,6 @@
 # Phen2Gene
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/WGLab/Phen2Gene/Test%20Phen2Gene)
+![Codecov](https://img.shields.io/codecov/c/github/WGLab/Phen2Gene)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/WGLab/Phen2Gene)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/WGLab/Phen2Gene)
 ![GitHub top language](https://img.shields.io/github/languages/top/WGLab/Phen2Gene)
