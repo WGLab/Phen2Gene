@@ -29,6 +29,10 @@ jobs:
     - name: Run pytest
       shell: bash -l {0}
       run: |
-          conda install pytest
-          pytest
+          conda install pytest pytest-cov
+          pytest --cov-report xml:coverage.xml --cov=./
+    - name: Upload code coverage report to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
         
