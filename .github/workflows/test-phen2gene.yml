@@ -27,8 +27,8 @@ jobs:
       run: |
         bash setup.sh
     - name: Run pytest
-        shell: bash -l {0}
-        run: |
-            conda install pytest
-            pytest
+      shell: bash -l {0}
+      run: |
+          conda install pytest
+          pytest
         
