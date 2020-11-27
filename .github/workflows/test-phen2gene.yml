@@ -4,7 +4,7 @@ name: Test Phen2Gene
 
 on:
   push:
-    branches: [ master, ci-tests ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
