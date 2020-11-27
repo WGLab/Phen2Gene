@@ -26,11 +26,9 @@ jobs:
       shell: bash -l {0}
       run: |
         bash setup.sh
-    - name: Install pytest
-      run: |
-        python -m pip install --upgrade pip
-        pip install pytest
-    - name: Test with pytest
-      run: |
-        pytest
+    - name: Run pytest
+        shell: bash -l {0}
+        run: |
+            conda install pytest
+            pytest
         
