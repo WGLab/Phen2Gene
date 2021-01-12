@@ -19,6 +19,44 @@ Please cite:
 If you do not wish to use Anaconda, simply install the packages in the file `environment.yml` using `pip`.  If you use `conda`, some packages may not properly install without updating `conda` using `conda update conda` first.
 
 ## Installation
+
+### Using Docker
+
+If you are lucky enough to have `Docker` or some equivalent like `Singularity` or `Podman` installation is easy as pie, just download the docker image with the following command:
+
+```
+docker pull genomicslab/phen2gene
+```
+
+Test out your Docker image with the below commands:
+
+On Unix/Linux:
+
+```
+docker run -it --rm -v $PWD/out:/code/out -t phen2gene -m HP:0001250 -out out/prioritizedgenelist
+```
+
+On Windows:
+
+```
+docker run -it --rm -v {$PWD}/out:/code/out -t phen2gene -m HP:0001250 -out out/prioritizedgenelist
+```
+
+As of the Jan 2021 version of the HPO2Gene KnowledgeBase, if you see in `out/prioritizedgenelist/output_file.associated_gene_list`:
+
+```
+Rank    Gene    ID      Score   Status
+1       KCNQ2   3785    1.0     SeedGene
+2       KCNQ3   3786    0.936339        SeedGene
+3       UBE3A   7337    0.93565 SeedGene
+4       MECP2   4204    0.89883 SeedGene
+5       FGFR2   2263    0.830351        SeedGene
+```
+
+You have succeeded.  The arguments described below in this document will work if you replace `python3 phen2gene.py` with `docker run -it --rm -v $PWD/out:/code/out -t phen2gene`.
+
+### In Anaconda
+
 First, install Miniconda, a minimal installation of Anaconda, which is much smaller and has a faster installation.
 Note that this version is meant for Linux below, macOS and Windows have a different script:
 
