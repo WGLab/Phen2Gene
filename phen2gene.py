@@ -25,7 +25,7 @@ def main():
     if(KBpath is None or not os.path.exists(KBpath)):
         sys.exit('The path of the HPO2Gene KnowledgeBase cannot be found, or you have not installed HPO2Gene KnowledgeBase.\nRun \'bash setup.sh\' to install HPO2Gene KnowledgeBase.')
 
-    HP_file_suffix=".candidate_gene_list"
+    HP_file_suffix = ".candidate_gene_list"
 
     weight_model = ""
 
@@ -33,11 +33,11 @@ def main():
     # Define commande line arguments
     parser = argparse.ArgumentParser(description='Phen2Gene: Phenotype driven gene prioritization tool.\n  Phen2Gene take input data (HPO, Human Phenotype Ontology), and output a prioritized suspected gene list.')
 
-    parser.add_argument('-f', '--file', metavar='FILE.NAME',  help='Input file(s) of HP IDs.', nargs='*')
+    parser.add_argument('-f', '--file', metavar='FILE.NAME', help='Input file(s) of HP IDs.', nargs='*')
 
-    parser.add_argument('-ud', '--user_defined', metavar='TERM&WEIGHT',  help='Input file(s) of HP IDs and user-defined weights.', nargs='*')
+    parser.add_argument('-ud', '--user_defined', metavar='TERM&WEIGHT', help='Input file(s) of HP IDs and user-defined weights.', nargs='*')
 
-    parser.add_argument('-m', '--manual', metavar='HPID',  help='Input HPO ID(s) one by one, seperated by an empty space.', nargs='*')
+    parser.add_argument('-m', '--manual', metavar='HPID', help='Input HPO ID(s) one by one, separated by an empty space.', nargs='*')
 
     parser.add_argument('-w', '--weight_model', metavar='w|u|s|ic|d', help='Methods to merge gene scores.\n \'w\' ( Default ) Scoring by weighted Human-Phenotype terms\n \'u\'  Scoring by Unweighted Human-Phenotype terms')
 
@@ -72,7 +72,7 @@ def main():
     weight_model = args.weight_model
     weight_only = args.weight_only
 
-    output_path= args.output
+    output_path = args.output
     output_file_name = args.name
 
     json_formatting = args.json
