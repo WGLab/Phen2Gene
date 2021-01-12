@@ -33,13 +33,13 @@ Test out your Docker image with the below commands:
 On Unix/Linux:
 
 ```
-docker run -it --rm -v $PWD/out:/code/out -t phen2gene -m HP:0001250 -out out/prioritizedgenelist
+docker run -it --rm -v $PWD/out:/code/out -t genomicslab/phen2gene -m HP:0001250 -out out/prioritizedgenelist
 ```
 
-On Windows:
+On Windows Powershell:
 
 ```
-docker run -it --rm -v {$PWD}/out:/code/out -t phen2gene -m HP:0001250 -out out/prioritizedgenelist
+docker run -it --rm -v ${PWD}/out:/code/out -t genomicslab/phen2gene -m HP:0001250 -out out/prioritizedgenelist
 ```
 
 As of the Jan 2021 version of the HPO2Gene KnowledgeBase, if you see in `out/prioritizedgenelist/output_file.associated_gene_list`:
