@@ -132,10 +132,6 @@ def results(KBpath, files=None, manuals=None, user_defineds=None, weight_model=N
 
         path_list = output_path.split("/")
 
-        if(path_list[0] == ""):
-            path_list[0] = "."
-            output_path = "." + output_path
-            
         if(path_list[0] == "."):
             for i in range(1,len(path_list)):
                 path_name = "./"
