@@ -13,6 +13,7 @@ then
     h2gpath='lib'
 fi
 
+h2gpath=$(readlink -f h2gpath)
 export h2gpath
 
 mkdir -p $h2gpath
@@ -20,6 +21,7 @@ echo "$h2gpath" > ./lib/h2gpath.config
 
 if [[ ! -z "$softpath" ]]
 then
+    softpath=$(readlink -f softpath)
     export softpath
     mkdir -p $softpath
     cp -a phen2gene.py $softpath

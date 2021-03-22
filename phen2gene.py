@@ -16,7 +16,7 @@ def main():
     KBpath = None
 
     try:
-        with open(r'lib/h2gpath.config') as fr:
+        with open(sys.path[0]+'/lib/h2gpath.config') as fr:
             KBpath = fr.readline().rstrip('\n')
     except:
         pass
