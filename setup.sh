@@ -1,4 +1,5 @@
 #!/usr/bin/sh
+set -x
 
 read -p "Input path for where you want to store the HPO2Gene KnowledgeBase [default path: ./lib]: " h2gpath
 
@@ -13,7 +14,14 @@ then
     h2gpath='lib'
 fi
 
-h2gpath=$(readlink -f h2gpath)
+getpath() {
+  (
+  cd "$(dirname $1)"         # or  cd "${1%/*}"
+  echo "$PWD/$(basename $1)" # or  echo "$PWD/${1##*/}"
+  )
+}
+
+h2gpath=$(getpath $h2gpath)
 export h2gpath
 
 mkdir -p $h2gpath
@@ -21,7 +29,7 @@ echo "$h2gpath" > ./lib/h2gpath.config
 
 if [[ ! -z "$softpath" ]]
 then
-    softpath=$(readlink -f softpath)
+    softpath=$(getpath $softpath)
     export softpath
     mkdir -p $softpath
     cp -a phen2gene.py $softpath

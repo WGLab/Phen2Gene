@@ -75,7 +75,7 @@ fig, ax = plt.subplots(1)
 width=0.4
 distance = 2
 lefts=np.arange(0,distance*len(ranks),distance)
-rects=ax.bar(x=lefts,height=phengene,width=width,color=(161/255.0,218/255.0,215/255.0), edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[0])
+rects=ax.bar(x=lefts,height=phengene,width=width,tick_label=ranks,color=(161/255.0,218/255.0,215/255.0), edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[0])
 if('TAF1' in filename):
     autolabel(rects, ax, -6, -0.1)
 
@@ -100,7 +100,7 @@ autolabel(rects, ax)
 #ax.legend(loc='upper left')
 
 alefts=np.arange(0+2*width,distance*len(ranks)+2*width, distance)
-rects=ax.bar(x=alefts,height=amelie,width=width,color=(95/255.0,158/255.0,160/255.0),edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[2])
+rects=ax.bar(x=alefts,height=amelie,width=width,tick_label=ranks,color=(95/255.0,158/255.0,160/255.0),edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[2])
 ax.set_xticks(alefts-width*.5)
 if('TAF1' in filename):
     autolabel(rects, ax, -6)
@@ -114,7 +114,7 @@ else:
 
 
 alefts=np.arange(0+3*width,distance*len(ranks)+3*width, distance)
-rects=ax.bar(x=alefts,height=gado,width=width,color=(135/255.0,206/255.0,250/255.0),edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[3])
+rects=ax.bar(x=alefts,height=gado,width=width,tick_label=ranks,color=(135/255.0,206/255.0,250/255.0),edgecolor=(96/255.0, 133/255.0, 131/255.0),label=labels[3])
 ax.set_xticks(alefts- width*1.5)
 
 autolabel(rects, ax, xoffset=0.1)
